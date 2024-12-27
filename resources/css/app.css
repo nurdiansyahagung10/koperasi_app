@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+* {
+  font-family: "Inter", serif;
+  transition: all 0.3s;
+}
+
+.hide-scrollbar::-webkit-scrollbar{
+    display: none;
+}
