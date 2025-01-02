@@ -8,7 +8,7 @@
             <button class="flex items-center text-xl"><i class='bx bx-bell' ></i></button>
         </li>
         <li>
-            <button class="flex items-center"><img class="inline-block size-8 rounded-full " src="https://i.pinimg.com/736x/18/b5/b5/18b5b599bb873285bd4def283c0d3c09.jpg" alt=""></button>
+            <button class="flex items-center"><img class="inline-block size-8 rounded-full " src="https://i.pinimg.com/736x/94/3a/fa/943afabb6fbbc48d61a56d8acf987b93.jpg" alt=""></button>
         </li>
     </ul>
 </nav>
