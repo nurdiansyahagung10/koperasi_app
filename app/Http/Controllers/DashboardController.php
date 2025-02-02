@@ -6,7 +6,8 @@ use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
-    public function index(){
-        return view("dashboard.home");
+    public function homeview(){
+        return view("dashboard.pages.home");
     }
+
 }

@@ -13,7 +13,6 @@ class AuthController extends Controller
     }
 
     public function Login(Request $request){
-
         $credentcial = $request->validate([
             'email' => ['required', 'email'],
             'password' => 'required'
@@ -21,9 +20,24 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentcial) && $accessToken = Auth::guard('api')->attempt($credentcial)) {
             session(['access_token' => $accessToken]);
-            return redirect()->route("dashboard");
+            return redirect()->route("home");
         }
 
         return redirect()->back()->withErrors(["email" => "email or password incorrect"])->withInput();
+    }
+
+    public function Logout(Request $request){
+        Auth::logout();
+
+        try{
+            Auth::guard('api')->setToken(session('access_token'))->logout();
+            $request->session()->forget('access_token');
+            return redirect()->route('login');
+
+        }catch(\Exception $e){
+            $request->session()->forget('access_token');
+            return redirect()->route('login');
+        }
+
     }
 }

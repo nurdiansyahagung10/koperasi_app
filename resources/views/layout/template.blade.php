@@ -11,7 +11,7 @@
     @vite('resources/css/app.css')
 </head>
 
-<body class="bg-gray-50">
+<body class="bg-gray-100">
     @yield('main')
     @include('layout.assets.js.bottomjs')
 

@@ -1,4 +1,12 @@
+<script src="{{ asset('js/script.js') }}"></script>
+
 <script>
+    if (window.location.href == window.location.origin + "/login") {
+        window.apikey = null;
+    }else{
+        window.apikey = "{{session("access_token")}}";
+
+    }
     const sidenav = document.getElementById("sidenav");
     const section_main_dashboard = document.getElementById("section-main-dashboard");
     const texticon = document.querySelectorAll(".text-icon");
@@ -23,8 +31,11 @@
     }
 
     function sidenav_triger() {
-        section_main_dashboard.classList.toggle("xl:w-[57rem]");
-        section_main_dashboard.classList.toggle("2xl:w-[65rem]");
+        if (section_main_dashboard != null) {
+            section_main_dashboard.classList.toggle("xl:w-[57rem]");
+            section_main_dashboard.classList.toggle("2xl:w-[65rem]");
+
+        }
         sidenav_triger_btn.classList.toggle("rotate-180");
         sidenav.classList.toggle("w-56");
         sidenav.classList.toggle("w-16");
