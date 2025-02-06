@@ -16,17 +16,16 @@ return new class extends Migration {
             $table->string("city_or_regency");
             $table->string("district");
             $table->string("village");
-            $table->string("rt_or_rw");
+            $table->string("rt_and_rw");
             $table->text("street_or_building_name");
-            $table->string("phone_number",13);
-            $table->integer('admin_provisi');
+            $table->string("phone_number", 13);
             $table->integer('service_charge');
             $table->integer('admin_charge');
             $table->integer('comision_charge');
+            $table->integer('deposite');
+            $table->integer('maxresort');
             $table->unsignedBigInteger('head_id')->index();
             $table->foreign("head_id")->references("id")->on("head_offices")->cascadeOnDelete();
-
-            $table->integer('deposite');
             $table->timestamps();
         });
     }

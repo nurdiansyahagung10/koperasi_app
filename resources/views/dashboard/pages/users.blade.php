@@ -6,7 +6,7 @@
             <h2 class="text-lg font-semibold">Manajemen Users</h2>
             <div class="flex gap-3 items-center">
                 <div class="p-0.5">
-                    <input type="text" name="" class="bg-white outline-none border w-36 p-1 px-3 rounded-xl" placeholder="Search.."
+                    <input type="text" name="" class="bg-white outline-hidden border w-36 p-1 px-3 rounded-xl" placeholder="Search.."
                         id="">
                 </div>
                 {{-- <div class="p-0.5 pl-2 border-l">
@@ -17,7 +17,7 @@
                 </div> --}}
             </div>
         </div>
-        <table class="table-auto rounded  w-full ">
+        <table class="table-auto rounded-sm  w-full ">
             <thead class="text-xs text-left bg-gray-100 rounded-xl overflow-hidden ">
                 <tr>
                     <td class="py-3 px-2 rounded-bl rounded-tl text-center">No</td>

@@ -4,7 +4,7 @@
     <section id="section-roles-dashboard " class="flex-1">
         <div class="w-full  flex h-full justify-center items-center">
 
-            <form method="POST" class="w-full flex flex-col gap-4 mt-2.5 " action="{{ route('head_offices.store') }}">
+            <form method="POST" id="formpost" class="w-full flex flex-col gap-4 mt-2.5 " action="{{ route('head_offices.store') }}">
                 <h2 class="text-lg font-semibold">Add Head Office Data</h2>
 
                 @csrf
@@ -28,7 +28,7 @@
                             <label class=" text-xs text-gray-500 whitespace-nowrap">Province<span
                                     class="text-red-600">*</span></label>
                             <select required name="province" id="province"
-                                class="w-full outline-none -translate-x-1 text-sm border-none shadow-none ">
+                                class="w-full outline-hidden -translate-x-1 text-sm border-none shadow-none ">
                             </select>
                         </div>
                     </div>
@@ -38,7 +38,7 @@
                             <label class="text-xs text-gray-500 whitespace-nowrap">City Or Regency<span
                                     class="text-red-600">*</span></label>
                             <select required name="city_or_regency" id="city_or_regency"
-                                class="w-full outline-none -translate-x-1 text-sm border-none shadow-none ">
+                                class="w-full outline-hidden -translate-x-1 text-sm border-none shadow-none ">
                             </select>
                         </div>
                     </div>
@@ -49,7 +49,7 @@
                             <label class=" text-xs text-gray-500 whitespace-nowrap">District<span
                                     class="text-red-600">*</span></label>
                             <select required name="district" id="district"
-                                class="w-full outline-none -translate-x-1 text-sm border-none shadow-none ">
+                                class="w-full outline-hidden -translate-x-1 text-sm border-none shadow-none ">
                             </select>
                         </div>
                     </div>
@@ -59,7 +59,7 @@
                             <label class="text-xs text-gray-500 whitespace-nowrap">Village<span
                                     class="text-red-600">*</span></label>
                             <select required name="village" id="village"
-                                class="w-full outline-none -translate-x-1 text-sm border-none shadow-none ">
+                                class="w-full outline-hidden -translate-x-1 text-sm border-none shadow-none ">
                             </select>
                         </div>
                     </div>
@@ -71,11 +71,11 @@
                                     class="text-red-600">*</span></label>
                             <div class="flex">
                                 <input type="number" maxlength="2" required name="rt" id="rt"
-                                    class="w-full flex-1 text-center outline-none  text-sm border-none shadow-none ">
+                                    class="w-full flex-1 text-center outline-hidden  text-sm border-none shadow-none ">
                                 </input>
                                 <span class="px-3">/</span>
                                 <input type="number" required name="rw" id="rw"
-                                    class="w-full flex-1 text-center outline-none  text-sm border-none shadow-none ">
+                                    class="w-full flex-1 text-center outline-hidden  text-sm border-none shadow-none ">
                                 </input>
 
                             </div>
@@ -87,7 +87,7 @@
                             <label class="text-xs text-gray-500 whitespace-nowrap">Phone Number<span
                                     class="text-red-600">*</span></label>
                             <input type="number" required name="phone_number" id="phone_number"
-                                class="w-full outline-none  text-sm border-none shadow-none ">
+                                class="w-full outline-hidden  text-sm border-none shadow-none ">
                             </input>
                         </div>
                     </div>
@@ -98,7 +98,7 @@
                         <label class="text-xs text-gray-500 whitespace-nowrap">Street Or Building Name<span
                                 class="text-red-600">*</span></label>
                         <textarea required name="street_or_building_name" id="street_or_building_name"
-                            class="w-full outline-none h-32 text-sm border-none shadow-none ">
+                            class="w-full outline-hidden h-32 text-sm border-none shadow-none ">
                         </textarea>
                     </div>
                 </div>
@@ -117,6 +117,8 @@
         let rwvalue = null;
         const phone_number = document.getElementById("phone_number");
         const rt_and_rw = document.getElementById("rt_and_rw");
+        const formpost = document.getElementById("formpost");
+
 
         function setting_length_number(event, maxlength) {
             if (event.target.value.length > maxlength) {

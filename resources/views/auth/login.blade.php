@@ -20,13 +20,11 @@
                         </div>
                         @if ($errors->any())
                             @foreach ($errors->all() as $error)
-                            
-
                                 <div id="mainalert1"
-                                    class=" border shadow-lg right-0 bottom-0 flex gap-4 items-center  lg:mr-0 lg:mb-5 mr-3 min-w-72 max-w-96  absolute  bg-white px-4  py-3 rounded-lg"
+                                    class=" border scale-0 shadow-lg right-0 bottom-0 flex gap-4 items-center  lg:mr-0 lg:mb-5 mr-3 min-w-72 max-w-96  absolute  bg-white px-4  py-3 rounded-lg"
                                     role="alert">
                                     <div class="flex items-center gap-2 "><span class="text-red-500"><i
-                                        class="fa-light fa-circle-xmark"></i></span><span>{{ $error }}</span>
+                                                class="fa-light fa-circle-xmark"></i></span><span>{{ $error }}</span>
                                     </div>
                                     <button onclick="alert(event,'mainalert1')" id="hidealert"
                                         class=" top-0 bottom-0 right-0 ">
@@ -45,7 +43,7 @@
                                 <label class="text-xs ps-4 text-gray-500 whitespace-nowrap">Email Address <span
                                         class="text-red-600">*</span></label>
                                 <input type="email" name="email"
-                                    class="w-full outline-none text-sm border-none shadow-none ps-4"
+                                    class="w-full outline-hidden text-sm border-none shadow-none ps-4"
                                     placeholder="account@gmail.com">
                             </div>
                         </div>
@@ -60,7 +58,7 @@
                                 <label class="text-xs ps-4 text-gray-500 whitespace-nowrap">Password <span
                                         class="text-red-600">*</span></label>
                                 <input type="password" name="password"
-                                    class="w-full outline-none text-sm border-none shadow-none ps-4">
+                                    class="w-full outline-hidden text-sm border-none shadow-none ps-4">
                             </div>
                         </div>
 
@@ -74,7 +72,7 @@
                 <img src="{{ url('img/person-working-office.jpg') }}" class="w-full h-full rounded-xl object-cover"
                     alt="">
                 <div class="text-center absolute w-full pe-16 ps-6 text-white -mt-60 lg:-mt-40 xl:-mt-36">
-                    <div class="backdrop-blur rounded-md p-3">
+                    <div class="backdrop-blur-sm rounded-md p-3">
                         <h1 class="text-xl font-medium ">Discovering the best <br> all you know Furniture for your home</h1>
                         <p class="text-sm mt-2">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Reiciendis debitis
                             assumenda voluptatibus molestiae animi quod, at veritatis</p>

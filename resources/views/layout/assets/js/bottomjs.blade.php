@@ -1,4 +1,3 @@
-<script src="{{ asset('js/script.js') }}"></script>
 
 <script>
     if (window.location.href == window.location.origin + "/login") {
@@ -62,7 +61,7 @@
             text.classList.toggle("hidden");
         })
         btnicon.forEach((text) => {
-            text.classList.toggle("!justify-center");
+            text.classList.toggle("justify-center!");
         })
     }
 </script>

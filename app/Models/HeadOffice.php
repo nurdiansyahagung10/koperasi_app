@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\BranchOffice;
 
 class HeadOffice extends Model
 {
@@ -17,5 +18,10 @@ class HeadOffice extends Model
         "phone_number",
         "street_or_building_name"
     ];
+
+    public function branch_offices()
+    {
+        return $this->hasMany(BranchOffice::class, "head_id");
+    }
 
 }

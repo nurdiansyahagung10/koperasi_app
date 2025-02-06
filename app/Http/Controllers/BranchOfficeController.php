@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\BranchOffice;
 use Illuminate\Http\Request;
+use App\Models\HeadOffice;
 
 class BranchOfficeController extends Controller
 {
@@ -12,7 +13,7 @@ class BranchOfficeController extends Controller
      */
     public function index()
     {
-        //
+        return view("dashboard.pages.branch_offices.branch_offices");
     }
 
     /**
@@ -20,7 +21,8 @@ class BranchOfficeController extends Controller
      */
     public function create()
     {
-        //
+        $head_offices = HeadOffice::all();
+        return view("dashboard.pages.branch_offices.branch_offices_create")->with(["head_offices" => $head_offices]);
     }
 
     /**
@@ -28,7 +30,25 @@ class BranchOfficeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedata = $request->validate([
+            'branch_name' => "required|string|unique:branch_offices,branch_name",
+            'city_or_regency' => "required|string",
+            'district' => "required|string",
+            'village' => "required|string",
+            'rt_and_rw' => "required|numeric",
+            'street_or_building_name' => "required",
+            'phone_number' => "required|numeric",
+            'head_id' => "required|numeric",
+            'maxresort' => "required|numeric",
+            'service_charge' => "required|numeric",
+            'admin_charge' => "required|numeric",
+            'comision_charge' => "required|numeric",
+            'deposite' => "required|numeric",
+        ]);
+
+        BranchOffice::create($validatedata);
+
+        return redirect()->route("branch_offices")->with("success", "Success Add Head Branch Office Data");
     }
 
     /**
@@ -44,7 +64,8 @@ class BranchOfficeController extends Controller
      */
     public function edit(BranchOffice $branchOffice)
     {
-        //
+        $head_offices = HeadOffice::all();
+        return view("dashboard.pages.branch_offices.branch_offices_edit")->with(["branch_offices" => $branchOffice, "head_offices" => $head_offices]);
     }
 
     /**
@@ -52,7 +73,46 @@ class BranchOfficeController extends Controller
      */
     public function update(Request $request, BranchOffice $branchOffice)
     {
-        //
+
+        if ($branchOffice->province == $request->province) {
+            $validatedata = $request->validate([
+                'branch_name' => "required|string",
+                'city_or_regency' => "required|string",
+                'district' => "required|string",
+                'village' => "required|string",
+                'rt_and_rw' => "required|numeric",
+                'street_or_building_name' => "required",
+                'phone_number' => "required|numeric",
+                'head_id' => "required|numeric",
+                'maxresort' => "required|numeric",
+                'service_charge' => "required|numeric",
+                'admin_charge' => "required|numeric",
+                'comision_charge' => "required|numeric",
+                'deposite' => "required|numeric",
+            ]);
+
+        } else {
+            $validatedata = $request->validate([
+                'branch_name' => "required|string|unique:branch_offices,branch_name",
+                'city_or_regency' => "required|string",
+                'district' => "required|string",
+                'village' => "required|string",
+                'rt_and_rw' => "required|numeric",
+                'street_or_building_name' => "required",
+                'phone_number' => "required|numeric",
+                'head_id' => "required|numeric",
+                'maxresort' => "required|numeric",
+                'service_charge' => "required|numeric",
+                'admin_charge' => "required|numeric",
+                'comision_charge' => "required|numeric",
+                'deposite' => "required|numeric",
+            ]);
+
+        }
+
+        $branchOffice->update($validatedata);
+
+        return redirect()->route("branch_offices")->with("success", "Success update Head Office Data");
     }
 
     /**
@@ -60,6 +120,9 @@ class BranchOfficeController extends Controller
      */
     public function destroy(BranchOffice $branchOffice)
     {
-        //
+        $branchOffice->delete();
+
+        return response()->json(["message" => "success"], 200);
     }
+
 }

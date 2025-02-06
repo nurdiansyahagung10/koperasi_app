@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\HeadOffice;
+use App\Models\BranchOffice;
+use App\Models\Resort;
 
 class ApiController extends Controller
 {
@@ -51,5 +53,20 @@ class ApiController extends Controller
         $head_offices = HeadOffice::all();
 
         return response()->json(['body' => $head_offices, 'message' => 'success'], 200);
+    }
+
+    public function branch_offices(Request $request)
+    {
+        $branch_offices = BranchOffice::with("head_offices")->get();
+
+
+        return response()->json(['body' => $branch_offices, 'message' => 'success'], 200);
+    }
+    public function resorts(Request $request, $branch_id)
+    {
+        $resorts = Resort::where("branch_id", $branch_id)->get();
+
+
+        return response()->json(['body' => $resorts, 'message' => 'success'], 200);
     }
 }

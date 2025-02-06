@@ -4,8 +4,8 @@
     <section id="section-roles-dashboard " class="flex-1">
         <div class="w-full  flex h-full justify-center items-center">
 
-            <form method="POST" id="formpost" class="w-full flex flex-col gap-4 mt-2.5 "
-                action="{{ route('head_offices.update', ['head_office' => $head_offices->id]) }}">
+            <form method="POST" class="w-full flex flex-col gap-4 mt-2.5 " id="formpost"
+                action="{{ route('branch_offices.update', ['branch_office' => $branch_offices->id]) }}">
                 <h2 class="text-lg font-semibold">Add Head Office Data</h2>
                 @csrf
                 @method('PUT')
@@ -31,14 +31,32 @@
                 <div class="grid grid-cols-1 gap-4">
                     <div class="button  bg-white border flex items-center px-4 py-1.5 rounded-xl ">
                         <div class="flex flex-col w-full">
-                            <label class=" text-xs text-gray-500 whitespace-nowrap">Province<span
+                            <label class="text-xs text-gray-500 whitespace-nowrap">Head Offices<span
                                     class="text-red-600">*</span></label>
-                            <select required name="province" id="province"
+                            <select required name="head_id" id="head_offices"
                                 class="w-full outline-hidden -translate-x-1 text-sm border-none shadow-none ">
+                                <option value="{{ $branch_offices->head_offices->id }}">
+                                    {{ $branch_offices->head_offices->province }}</option>
+                                @foreach ($head_offices as $item)
+                                    @if ($item->province != $branch_offices->head_offices->province)
+                                        <option value="{{ $item->id }}">{{ $item->province }}</option>
+                                    @endif
+                                @endforeach
                             </select>
                         </div>
                     </div>
+                </div>
+                <div class="grid grid-cols-1 gap-4">
 
+                    <div class="button  bg-white border flex items-center px-4 py-1.5 rounded-xl ">
+                        <div class="flex flex-col w-full">
+                            <label class="text-xs text-gray-500 whitespace-nowrap">Branch Name<span
+                                    class="text-red-600">*</span></label>
+                            <input required name="branch_name" id="branch_name"
+                                class="w-full outline-hidden  text-sm border-none shadow-none "
+                                value="{{ $branch_offices->branch_name }}">
+                        </div>
+                    </div>
                     <div class="button  bg-white border flex items-center px-4 py-1.5 rounded-xl ">
                         <div class="flex flex-col w-full">
                             <label class="text-xs text-gray-500 whitespace-nowrap">City Or Regency<span
@@ -78,13 +96,12 @@
                             <div class="flex">
                                 <input type="number" maxlength="2" required name="rt" id="rt"
                                     class="w-full flex-1 text-center outline-hidden  text-sm border-none shadow-none "
-                                    value="{{ substr($head_offices->rt_and_rw, 0, 2) }}">
-                                </input>
+                                    value="{{ substr($branch_offices->rt_and_rw, 0, 2) }}">
+
                                 <span class="px-3">/</span>
                                 <input type="number" required name="rw" id="rw"
                                     class="w-full flex-1 text-center outline-hidden  text-sm border-none shadow-none "
-                                    value="{{ substr($head_offices->rt_and_rw, 2, 4) }}">
-                                </input>
+                                    value="{{ substr($branch_offices->rt_and_rw, 2, 4) }}">
 
                             </div>
                         </div>
@@ -96,26 +113,83 @@
                                     class="text-red-600">*</span></label>
                             <input type="number" required name="phone_number" id="phone_number"
                                 class="w-full outline-hidden  text-sm border-none shadow-none "
-                                value="{{ $head_offices->phone_number }}">
-                            </input>
+                                value="{{ $branch_offices->phone_number }}">
+
                         </div>
                     </div>
                 </div>
-                <input type="hidden" name="rt_and_rw" id="rt_and_rw" value="{{ $head_offices->rt_and_rw }}">
+                <input type="hidden" name="rt_and_rw" id="rt_and_rw">
                 <div class="button bg-white border flex items-center px-4 py-1.5 rounded-xl ">
                     <div class="flex flex-col w-full">
                         <label class="text-xs text-gray-500 whitespace-nowrap">Street Or Building Name<span
                                 class="text-red-600">*</span></label>
                         <textarea required name="street_or_building_name" id="street_or_building_name"
-                            class="w-full outline-hidden h-32 text-sm border-none shadow-none ">{{ $head_offices->street_or_building_name }}</textarea>
+                            class="w-full outline-hidden h-32 text-sm border-none shadow-none ">{{ $branch_offices->street_or_building_name }}</textarea>
                     </div>
                 </div>
-                <button class="px-4 py-2.5 bg-black text-white rounded-xl w-full">Submit</button>
+                <div class="grid grid-cols-1 gap-4">
+                    <div class="button  bg-white border flex items-center px-4 py-1.5 rounded-xl ">
+                        <div class="flex flex-col w-full">
+                            <label class=" text-xs text-gray-500 whitespace-nowrap">Service Charge<span
+                                    class="text-red-600">*</span></label>
+                            <div class="flex">
+                                <input required name="service_charge" id="service_charge"
+                                    class="w-full outline-none  text-sm border-none shadow-none "
+                                    value="{{ $branch_offices->service_charge }}">
+                                <span class="text-sm">%</span>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 gap-4">
+                    <div class="button  bg-white border flex items-center px-4 py-1.5 rounded-xl ">
+                        <div class="flex flex-col w-full">
+                            <label class=" text-xs text-gray-500 whitespace-nowrap">Admin Charge<span
+                                    class="text-red-600">*</span></label>
+                            <div class="flex">
+                                <input required name="admin_charge" id="admin_charge"
+                                    class="w-full outline-none  text-sm border-none shadow-none "
+                                    value="{{ $branch_offices->admin_charge }}">
+                                <span class="text-sm">%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 gap-4">
+                    <div class="button  bg-white border flex items-center px-4 py-1.5 rounded-xl ">
+                        <div class="flex flex-col w-full">
+                            <label class=" text-xs text-gray-500 whitespace-nowrap">Comision Charge<span
+                                    class="text-red-600">*</span></label>
+                            <div class="flex">
+                                <input required name="comision_charge" id="comision_charge"
+                                    class="w-full outline-none  text-sm border-none shadow-none "
+                                    value="{{ $branch_offices->comision_charge }}">
+                                <span class="text-sm">%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 gap-4">
+                    <div class="button  bg-white border flex items-center px-4 py-1.5 rounded-xl ">
+                        <div class="flex flex-col w-full">
+                            <label class=" text-xs text-gray-500 whitespace-nowrap">Deposite<span
+                                    class="text-red-600">*</span></label>
+                            <div class="flex">
+                                <input required name="deposite" id="deposite"
+                                    class="w-full outline-none  text-sm border-none shadow-none "
+                                    value="{{ $branch_offices->deposite }}">
+                                <span class="text-sm">%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button  class="px-4 py-2.5 bg-black text-white rounded-xl w-full">Submit</button>
             </form>
         </div>
     </section>
     <script>
-        const province = document.getElementById("province");
+        const head_offices = document.getElementById("head_offices");
         const city_or_regency = document.getElementById("city_or_regency");
         const district = document.getElementById("district");
         const village = document.getElementById("village");
@@ -126,7 +200,6 @@
         const phone_number = document.getElementById("phone_number");
         const rt_and_rw = document.getElementById("rt_and_rw");
         const formpost = document.getElementById("formpost");
-
 
         function setting_length_number(event, maxlength) {
             if (event.target.value.length > maxlength) {
@@ -150,35 +223,23 @@
         })
 
         function show_first_data() {
-            get_province("{{ $head_offices->province }}");
+            get_province(head_offices.options[head_offices.selectedIndex].textContent.trim());
         }
 
 
         async function get_province(province_data) {
 
-            province.innerHTML = `
-                    <option value="">Loading...</option>
-                `;
+            console.log(province_data);
 
             const response = await fetch(`https://www.emsifa.com/api-wilayah-indonesia/api/provinces.json`);
 
             const data = await response.json();
 
-
             data.forEach(item => {
                 if (item.name == province_data) {
-                    province.innerHTML = `
-                    <option value="${item.name}" data-id="${item.id}">${item.name}</option>
-                `;
                     get_city_or_regency(item.id);
                 }
-            });
-            data.forEach(item => {
-                if (item.name != province_data) {
-                    province.innerHTML += `
-                    <option value="${item.name}" data-id="${item.id}">${item.name}</option>
-                `;
-                }
+                console.log(item.name == province_data)
             });
         }
 
@@ -194,7 +255,7 @@
             const data = await response.json();
 
             data.forEach(item => {
-                if (item.name == "{{ $head_offices->city_or_regency }}") {
+                if (item.name == "{{ $branch_offices->city_or_regency }}") {
                     city_or_regency.innerHTML = `
                     <option value="${item.name}" data-id="${item.id}">${item.name}</option>
                 `;
@@ -211,7 +272,7 @@
             }
 
             data.forEach(item => {
-                if (item.name != "{{ $head_offices->city_or_regency }}") {
+                if (item.name != "{{ $branch_offices->city_or_regency }}") {
                     city_or_regency.innerHTML += `
                     <option value="${item.name}" data-id="${item.id}">${item.name}</option>
                 `;
@@ -232,7 +293,7 @@
             const data = await response.json();
 
             data.forEach(item => {
-                if (item.name == "{{ $head_offices->district }}") {
+                if (item.name == "{{ $branch_offices->district }}") {
                     district.innerHTML = `
                     <option value="${item.name}" data-id="${item.id}">${item.name}</option>
                 `;
@@ -249,7 +310,7 @@
             }
 
             data.forEach(item => {
-                if (item.name != "{{ $head_offices->district }}") {
+                if (item.name != "{{ $branch_offices->district }}") {
                     district.innerHTML += `
                     <option value="${item.name}" data-id="${item.id}">${item.name}</option>
                 `;
@@ -271,7 +332,7 @@
             const data = await response.json();
 
             data.forEach(item => {
-                if (item.name == "{{ $head_offices->village }}") {
+                if (item.name == "{{ $branch_offices->village }}") {
                     village.innerHTML = `
                     <option value="${item.name}" data-id="${item.id}">${item.name}</option>
                 `;
@@ -287,7 +348,7 @@
             }
 
             data.forEach(item => {
-                if (item.name != "{{ $head_offices->village }}") {
+                if (item.name != "{{ $branch_offices->village }}") {
                     village.innerHTML += `
                     <option value="${item.name}" data-id="${item.id}">${item.name}</option>
                 `;
@@ -296,11 +357,10 @@
 
         }
 
-        province.addEventListener("change", (event) => {
 
 
-            get_city_or_regency(event.target.options[event.target.selectedIndex].getAttribute("data-id"));
-
+        head_offices.addEventListener("change", (event) => {
+            get_province(event.target.options[event.target.selectedIndex].textContent.trim());
 
             district.innerHTML = `
                     <option value="">Select city Or Regency First</option>
@@ -326,6 +386,7 @@
             get_village(event.target.options[event.target.selectedIndex].getAttribute("data-id"));
 
         })
+
 
         formpost.addEventListener("submit", (event) => {
             event.preventDefault();

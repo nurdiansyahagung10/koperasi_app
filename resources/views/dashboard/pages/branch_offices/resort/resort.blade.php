@@ -22,7 +22,7 @@
                         placeholder="Search.." id="">
                 </div>
                 <div class="p-0.5 pl-2 border-l">
-                    <a href="{{ route('head_offices.create') }}">
+                    <a href="{{ route('resort.create', ["branch_id" => $branch_id]) }}">
                         <button name=""
                             class="text-sm border rounded-xl p-1.5 px-3 font-semibold text-white bg-black">
                             Add More
@@ -35,7 +35,9 @@
             <thead class="text-xs text-left bg-gray-100 rounded-xl overflow-hidden ">
                 <tr>
                     <td class="py-3 px-2 rounded-bl rounded-tl text-center">No</td>
-                    <td class="text-center">Role name</td>
+                    <td class="text-center">Resort Number</td>
+                    <td class="text-center">Pdl</td>
+                    <td class="text-center">Created At</td>
                     <td class="rounded-br rounded-tr text-center px-2">Action</td>
                 </tr>
             </thead>

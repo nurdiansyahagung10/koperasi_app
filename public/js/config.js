@@ -1,8 +1,8 @@
-const linknow = window.location.href.split("/").length == 5 ? window.location.href.split("/").slice(0, 4).join("/") :
-    window.location.href;
+const linknow = window.location.href.split("/").slice(0, 4).join("/");
 
 // setting this if you use api for getting data
 const apikey = window.apikey;
+
 
 const api_config = (method = "get", body_value = null) => {
     let body = JSON.stringify(body_value);
@@ -28,6 +28,30 @@ const api_config = (method = "get", body_value = null) => {
     return config;
 }
 
+const file_or_link_data = () => {
+    switch (linknow) {
+        case window.location.origin + "/roles":
+            return "/api/v1/roles";
+        case window.location.origin + "/permissions":
+            return "/api/v1/permissions";
+        case window.location.origin + "/users":
+            return "/api/v1/all_users";
+        case window.location.origin + "/head_offices":
+            return "/api/v1/head_offices";
+        case window.location.origin + "/branch_offices":
+            return "/api/v1/branch_offices";
+        case window.location.origin + "/resorts":
+            return "/api/v1/resorts/branch/" + window.location.href.split("/")[5];
+        default:
+            console.error("URL tidak dikenali:", linknow);
+            return null;
+    }
+};
+
+
+
+
+
 
 // ubah tampilan isi table di sini
 const display_body_table = (item, iteration) => {
@@ -36,7 +60,7 @@ const display_body_table = (item, iteration) => {
             return `
 <tr>
     <td class=" border-b border-gray-200 text-center">${iteration}</td>
-    <td class="border-b border-gray-200 text-center" id="task-${iteration}">
+    <td class="border-b border-gray-200 text-center" >
         ${item.role_name}
     </td>
     <td class="border-b items-center py-2    text-center p-1 border-gray-200">
@@ -49,11 +73,11 @@ const display_body_table = (item, iteration) => {
             </div>
 
 
-            <div class="hidden absolute right-0 z-10  origin-top-right rounded-md bg-white  shadow-lg border "
+            <div class="scale-0 absolute right-0 z-10  origin-top-right rounded-md bg-white  shadow-lg border "
                 role="menu" aria-orientation="vertical" id="dropdown-${iteration}"
                 aria-labelledby="menu-button-${iteration}" tabindex="-1">
                 <div class="py-1" role="none">
-                    <a href="/permissions/${item.id}" class="block px-4 whitespace-nowrap py-2 text-xs text-gray-500"
+                    <a href="/permissions/${item.id}" class="block px-4 hover:text-black whitespace-nowrap py-2 text-xs text-gray-500"
                         role="menuitem" id="menu-item-0">Permissions</a>
 
                 </div>
@@ -98,7 +122,7 @@ const display_body_table = (item, iteration) => {
             return `
 <tr>
     <td class=" border-b border-gray-200 text-center">${iteration}</td>
-    <td class="border-b border-gray-200 text-center" id="task-${iteration}">
+    <td class="border-b border-gray-200 text-center" >
         ${item.province}
     </td>
     <td class="border-b items-center py-2    text-center p-1 border-gray-200">
@@ -111,25 +135,198 @@ const display_body_table = (item, iteration) => {
                 </button>
             </div>
 
-
-            <div class="hidden absolute right-0 z-10  origin-top-right rounded-md bg-white  shadow-lg border "
+            <div class="scale-0 absolute right-0 z-10  origin-top-right rounded-md bg-white  shadow-lg border "
                 role="menu" aria-orientation="vertical" id="dropdown-${iteration}"
                 aria-labelledby="menu-button-${iteration}" tabindex="-1">
                 <div class="py-1" role="none">
                     <a href="/head_offices/${item.id}/edit"
-                        class="block px-4 whitespace-nowrap py-2 text-xs text-gray-500" role="menuitem"
+                        class="block px-4 whitespace-nowrap py-2 hover:text-black text-xs text-gray-500" role="menuitem"
                         id="menu-item-0">Edit</a>
-                        <button id="delete-${iteration}" name="${item.id}"
-                        class="block px-4 whitespace-nowrap py-2 text-xs text-gray-500" role="menuitem"
+                        <button id="delete-${iteration}" "
+                        class="block px-4 whitespace-nowrap py-2 hover:text-black text-xs text-gray-500" role="menuitem"
                         id="menu-item-0">Delete</button>
                 </div>
             </div>
         </div>
     </td>
 </tr>
-<div id="modal-delete-${iteration}" class="invisible absolute top-0 left-0 right-0 z-50 w-full h-screen bg-black">
+<div id="modal-delete-${iteration}" class="relative invisible opacity-0 z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
 
+  <div class="fixed inset-0 bg-black opacity-65 transition-opacity" aria-hidden="true"></div>
+
+  <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
+    <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+
+      <div class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+        <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+          <div class="sm:flex sm:items-start">
+            <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+              <h3 class="text-base font-semibold text-gray-900" id="modal-title">Delete Head Office Data?</h3>
+              <div class="mt-2">
+                <p class="text-sm text-gray-500">Are you sure you want to Delete Your Head Office Data? All of your data who connected to Head Office will be permanently removed. This action cannot be undone.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="bg-gray-100 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+          <button name="${item.id}" id="final-choices-delete-${iteration}" type="button" class="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-red-500 sm:ml-3 sm:w-auto">Delete</button>
+          <button type="button" id="modal-button-hidden-${iteration}" class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 shadow-xs ring-gray-300 ring-inset hover:bg-gray-50 sm:mt-0 sm:w-auto">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
+
+`;
+        case window.location.origin + "/branch_offices":
+            return `
+<tr>
+    <td class=" border-b border-gray-200 text-center">${iteration}</td>
+    <td class="border-b border-gray-200 text-center" >
+        ${item.branch_name}
+    </td>
+    <td class="border-b border-gray-200 text-center">
+        ${item.head_offices.province}
+    </td>
+    <td class="border-b border-gray-200 text-center">
+        ${item.phone_number}
+    </td>
+    <td class="border-b border-gray-200 text-center">
+        ${item.service_charge}%
+    </td>
+    <td class="border-b border-gray-200 text-center">
+        ${item.admin_charge}%
+    </td>
+    <td class="border-b border-gray-200 text-center">
+        ${item.comision_charge}%
+    </td>
+    <td class="border-b border-gray-200 text-center">
+        ${item.deposite}%
+    </td>
+    <td class="border-b items-center py-2    text-center p-1 border-gray-200">
+        <div class="relative inline-block text-left">
+            <div>
+                <button type="button"
+                    class="inline-flex w-full justify-center gap-x-1.5 rounded-md  px-3 py-2 text-sm "
+                    id="menu-button-${iteration}" aria-expanded="true" aria-haspopup="true">
+                    <i class="fa-light fa-pen-to-square"></i>
+                </button>
+            </div>
+
+            <div class="scale-0 absolute right-0 z-10  origin-top-right rounded-md bg-white  shadow-lg border "
+                role="menu" aria-orientation="vertical" id="dropdown-${iteration}"
+                aria-labelledby="menu-button-${iteration}" tabindex="-1">
+                <div class="py-1" role="none">
+                    <a href="/resorts/branch_offices/${item.id}/selectresort"
+                        class="block px-4 whitespace-nowrap py-2 hover:text-black text-xs text-gray-500" role="menuitem"
+                        id="menu-item-0">Resort</a>
+                    <a href="/branch_offices/${item.id}/edit"
+                        class="block px-4 whitespace-nowrap py-2 hover:text-black text-xs text-gray-500" role="menuitem"
+                        id="menu-item-0">Edit</a>
+                        <button id="delete-${iteration}" "
+                        class="block px-4 whitespace-nowrap py-2 hover:text-black text-xs text-gray-500" role="menuitem"
+                        id="menu-item-0">Delete</button>
+                </div>
+            </div>
+        </div>
+    </td>
+</tr>
+<div id="modal-delete-${iteration}" class="relative invisible opacity-0 z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+
+  <div class="fixed inset-0 bg-black opacity-65 transition-opacity" aria-hidden="true"></div>
+
+  <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
+    <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+
+      <div class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+        <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+          <div class="sm:flex sm:items-start">
+            <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+              <h3 class="text-base font-semibold text-gray-900" id="modal-title">Delete Head Office Data?</h3>
+              <div class="mt-2">
+                <p class="text-sm text-gray-500">Are you sure you want to Delete Your Head Office Data? All of your data who connected to Head Office will be permanently removed. This action cannot be undone.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="bg-gray-100 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+          <button name="${item.id}" id="final-choices-delete-${iteration}" type="button" class="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-red-500 sm:ml-3 sm:w-auto">Delete</button>
+          <button type="button" id="modal-button-hidden-${iteration}" class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 shadow-xs ring-gray-300 ring-inset hover:bg-gray-50 sm:mt-0 sm:w-auto">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+`;
+        case window.location.origin + "/resorts":
+            return `
+<tr>
+    <td class=" border-b border-gray-200 text-center">${iteration}</td>
+    <td class="border-b border-gray-200 text-center" >
+        ${item.resort_number}
+    </td>
+    <td class="border-b border-gray-200 text-center">
+        ${item.pdl ? item.pdl.pdl_name : "Not Have Pdl"}
+    </td>
+    <td class="border-b border-gray-200 text-center">
+        ${item.created_at.slice(0, 10)}
+    </td>
+    <td class="border-b items-center py-2    text-center p-1 border-gray-200">
+        <div class="relative inline-block text-left">
+            <div>
+                <button type="button"
+                    class="inline-flex w-full justify-center gap-x-1.5 rounded-md  px-3 py-2 text-sm "
+                    id="menu-button-${iteration}" aria-expanded="true" aria-haspopup="true">
+                    <i class="fa-light fa-pen-to-square"></i>
+                </button>
+            </div>
+
+            <div class="scale-0 absolute right-0 z-10  origin-top-right rounded-md bg-white  shadow-lg border "
+                role="menu" aria-orientation="vertical" id="dropdown-${iteration}"
+                aria-labelledby="menu-button-${iteration}" tabindex="-1">
+                <div class="py-1" role="none">
+                    <a href="/resort/branch_offices/${item.id}/selectresort"
+                        class="block px-4 whitespace-nowrap py-2 hover:text-black text-xs text-gray-500" role="menuitem"
+                        id="menu-item-0">Resort</a>
+                    <a href="/resorts/branch_offices/${item.branch_id}/selectresort/${item.id}/edit"
+                        class="block px-4 whitespace-nowrap py-2 hover:text-black text-xs text-gray-500" role="menuitem"
+                        id="menu-item-0">Edit</a>
+                        <button id="delete-${iteration}" "
+                        class="block px-4 whitespace-nowrap py-2 hover:text-black text-xs text-gray-500" role="menuitem"
+                        id="menu-item-0">Delete</button>
+                </div>
+            </div>
+        </div>
+    </td>
+</tr>
+<div id="modal-delete-${iteration}" class="relative invisible opacity-0 z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+
+  <div class="fixed inset-0 bg-black opacity-65 transition-opacity" aria-hidden="true"></div>
+
+  <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
+    <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+
+      <div class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+        <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+          <div class="sm:flex sm:items-start">
+            <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+              <h3 class="text-base font-semibold text-gray-900" id="modal-title">Delete Head Office Data?</h3>
+              <div class="mt-2">
+                <p class="text-sm text-gray-500">Are you sure you want to Delete Your Head Office Data? All of your data who connected to Head Office will be permanently removed. This action cannot be undone.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="bg-gray-100 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+          <button name="${item.id}" id="final-choices-delete-${iteration}" type="button" class="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-red-500 sm:ml-3 sm:w-auto">Delete</button>
+          <button type="button" id="modal-button-hidden-${iteration}" class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 shadow-xs ring-gray-300 ring-inset hover:bg-gray-50 sm:mt-0 sm:w-auto">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 `;
     }
 
@@ -142,19 +339,22 @@ const extra_function_for_body_table = (mindata, maxdata) => {
             if (j != currentIndex) {
                 const
                     anotherdropdown = document.getElementById(`dropdown-${j}`); if (anotherdropdown) {
-                        anotherdropdown.classList.add("hidden");
+                        anotherdropdown.classList.remove("!scale-100");
                     }
             }
         }
-    } function dropdown_click() {
+    }
+
+    function dropdown_click() {
         for (let i = mindata; i <= maxdata; i++) {
-            const menu_button = document.getElementById(`menu-button-${i}`); const
-                dropdown = document.getElementById(`dropdown-${i}`); if (menu_button) {
-                    menu_button.addEventListener('click', () => {
-                        dropdown.classList.toggle("hidden");
-                        hideOtherDropdowns(i);
-                    });
-                }
+            const menu_button = document.getElementById(`menu-button-${i}`); 
+            const dropdown = document.getElementById(`dropdown-${i}`);
+            if (menu_button) {
+                menu_button.addEventListener('click', () => {
+                    dropdown.classList.toggle("!scale-100");
+                    hideOtherDropdowns(i);
+                });
+            }
         }
     }
 
@@ -164,7 +364,7 @@ const extra_function_for_body_table = (mindata, maxdata) => {
         for (let i = mindata; i <= maxdata; i++) {
             const checkbox_permissions = document.getElementById(`permissions-${i}`);
             if (checkbox_permissions) {
-                has_permissions.forEach(item => {
+                has_permissions.body.forEach(item => {
                     if (item.permissions != null) {
                         if (i == item.permissions.slice(0, 1)) {
                             checkbox_permissions.checked = true;
@@ -194,26 +394,61 @@ const extra_function_for_body_table = (mindata, maxdata) => {
                 }
         }
 
-
-
-
     }
 
-    function fetch_delete() {
+    function fetch_delete(link) {
         for (let i = mindata; i <= maxdata; i++) {
             const
                 delete_button = document.getElementById(`delete-${i}`);
-            console.log(delete_button);
+
             if (delete_button) {
                 delete_button.addEventListener('click', async (event) => {
                     const modal = document.getElementById(`modal-delete-${i}`);
-                    console.log(modal);
                     modal.classList.add("!visible");
-                    // const response = await fetch(window.location.origin + "/api/v1/head_offices/" + event.target.name, api_config("delete"));
-                    // const data = await response.json();
-
+                    modal.classList.add("!opacity-100");
                 });
             }
+
+
+            const modal_button_hidden = document.getElementById(`modal-button-hidden-${i}`);
+            const final_choices_delete = document.getElementById(`final-choices-delete-${i}`);
+
+            if (modal_button_hidden) {
+                modal_button_hidden.addEventListener("click", () => {
+                    const modal = document.getElementById(`modal-delete-${i}`);
+                    modal.classList.remove("!visible");
+                    modal.classList.remove("!opacity-100");
+                })
+            }
+
+            if (final_choices_delete) {
+                final_choices_delete.addEventListener("click", async (event) => {
+                    const response = await fetch("/api/v1" + link + event.target.name, api_config("delete"));
+                    const data = await response.json();
+                    if (data.message == "success") {
+                        sessionStorage.setItem("success", "success deleting head offices");
+                        history.go(0);
+                    }
+                })
+            }
+
+        }
+    }
+
+    function success_session_from_js() {
+        if (sessionStorage.getItem("success")) {
+            const section = document.getElementById("section-roles-dashboard");
+            section.innerHTML += `
+            <div id="mainalert1"
+                class=" border shadow-lg right-0 bottom-0 flex gap-4 items-center  mr-8 mb-8 min-w-72 max-w-96  absolute  bg-white px-4  py-3 rounded-lg"
+                role="alert">
+                <div class="flex items-center gap-2 "><span class="text-green-500"><i
+                            class="fa-light fa-circle-check"></i></span><span>${sessionStorage.getItem("success")}</span></div>
+                <button onclick="alert(event,'mainalert1')" id="hidealert" class=" top-0 bottom-0 right-0 ">
+                    <i class="fa-duotone fa-light fa-xmark"></i> </button>
+            </div>
+            `;
+            sessionStorage.removeItem("success");
         }
     }
 
@@ -229,27 +464,23 @@ const extra_function_for_body_table = (mindata, maxdata) => {
             set_permissions();
             break;
         case window.location.origin + "/head_offices":
-            fetch_delete();
-            dropdown_click()
+            fetch_delete("/head_offices/");
+            dropdown_click();
+            success_session_from_js();
+            break;
+        case window.location.origin + "/branch_offices":
+            fetch_delete("/branch_offices/");
+            dropdown_click();
+            success_session_from_js();
+            break;
+        case window.location.origin + "/resorts":
+            fetch_delete("/resorts/");
+            console.log(dropdown_click());
+            success_session_from_js();
             break;
     }
 }
 
-
-const file_or_link_data = () => {
-    switch (linknow) {
-        case window.location.origin + "/roles":
-            return "/api/v1/roles";
-        case window.location.origin + "/permissions":
-            return "/api/v1/permissions";
-        case window.location.origin + "/users":
-            return "/api/v1/all_users";
-        case window.location.origin + "/head_offices":
-            return "/api/v1/head_offices";
-
-    }
-
-}
 
 
 

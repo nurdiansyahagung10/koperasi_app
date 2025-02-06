@@ -1,6 +1,7 @@
 // main-table-package.js
 import { display_body_table, file_or_link_data, api_config, extra_function_for_body_table } from '../../config.js';
 
+console.log("sampai maintable");
 
 let data = null;
 let prevvar = 0;

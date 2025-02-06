@@ -65,7 +65,7 @@ class HeadOfficeController extends Controller
     public function update(Request $request, HeadOffice $headOffice)
     {
 
-        if($headOffice->province == $request->province){
+        if ($headOffice->province == $request->province) {
             $validatedata = $request->validate([
                 'province' => "required|string",
                 'city_or_regency' => "required|string",
@@ -76,9 +76,9 @@ class HeadOfficeController extends Controller
                 'phone_number' => "required|numeric",
             ]);
 
-        }else{
+        } else {
             $validatedata = $request->validate([
-                'province' => "required|string",
+                'province' => "required|string|unique:head_offices,province",
                 'city_or_regency' => "required|string",
                 'district' => "required|string",
                 'village' => "required|string",
@@ -102,6 +102,6 @@ class HeadOfficeController extends Controller
     {
         $headOffice->delete();
 
-        return response()->json(["message" => "Success Delete Head Office Data"], 200);
+        return response()->json(["message" => "success"], 200);
     }
 }
