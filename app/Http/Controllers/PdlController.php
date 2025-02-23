@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Pdl;
 use Illuminate\Http\Request;
+use App\Models\HeadOffice;
 
 class PdlController extends Controller
 {
@@ -12,7 +13,7 @@ class PdlController extends Controller
      */
     public function index()
     {
-        //
+        return view("dashboard.pages.employees.branch.pdl.pdl");
     }
 
     /**
@@ -20,7 +21,9 @@ class PdlController extends Controller
      */
     public function create()
     {
-        //
+        $head_offices = HeadOffice::all();
+
+        return view('dashboard.pages.employees.branch.pdl.pdl_create')->with(['head_offices' => $head_offices]);
     }
 
     /**
@@ -28,7 +31,23 @@ class PdlController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedata = $request->validate(rules: [
+            'head_id' => "required|integer",
+            'branch_id' => "required|integer",
+            'pdl_name' => "required|string",
+            'basic_salary' => "required|integer",
+            'hometown' => "required",
+            'phone_number' => "required|numeric",
+            'sk' => "required|string",
+        ]);
+
+
+        $validatedata["salary_date"] = date("d");
+
+        Pdl::create($validatedata);
+
+        return redirect()->route("pdls", )->with("success", "Success Add Pdl Data");
+
     }
 
     /**
@@ -44,7 +63,9 @@ class PdlController extends Controller
      */
     public function edit(Pdl $pdl)
     {
-        //
+        $head_offices = HeadOffice::all();
+
+        return view("dashboard.pages.employees.branch.pdl.pdl_edit")->with(["pdl" => $pdl, "head_offices" => $head_offices]);
     }
 
     /**
@@ -52,7 +73,22 @@ class PdlController extends Controller
      */
     public function update(Request $request, Pdl $pdl)
     {
-        //
+
+        $validatedata = $request->validate(rules: [
+            'head_id' => "required|integer",
+            'branch_id' => "required|integer",
+            'pdl_name' => "required|string",
+            'basic_salary' => "required|integer",
+            'hometown' => "required",
+            'phone_number' => "required|numeric",
+            'sk' => "required|string",
+        ]);
+
+
+        $pdl->update($validatedata);
+
+        return redirect()->route("pdls")->with("success", "Success Edit Pdl Data  ");
+
     }
 
     /**
@@ -60,6 +96,8 @@ class PdlController extends Controller
      */
     public function destroy(Pdl $pdl)
     {
-        //
+        $pdl->delete();
+
+        return response()->json(["message" => "success"], 200);
     }
 }

@@ -48,7 +48,7 @@ class BranchOfficeController extends Controller
 
         BranchOffice::create($validatedata);
 
-        return redirect()->route("branch_offices")->with("success", "Success Add Head Branch Office Data");
+        return redirect()->route("branch_offices")->with("success", "Success Add Branch Office Data");
     }
 
     /**
@@ -112,7 +112,7 @@ class BranchOfficeController extends Controller
 
         $branchOffice->update($validatedata);
 
-        return redirect()->route("branch_offices")->with("success", "Success update Head Office Data");
+        return redirect()->route("branch_offices")->with("success", "Success update Branch Office Data");
     }
 
     /**

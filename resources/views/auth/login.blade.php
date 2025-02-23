@@ -5,6 +5,8 @@
 
         <div class="grid lg:grid-cols-2">
             <section class="w-full h-screen flex flex-col p-10 relative">
+                @include('dashboard.layout.errors_notification')
+
                 <span class="font-medium text-xl">Koperasi Kita</span>
 
                 <div class="w-full  flex h-full justify-center items-center">
@@ -18,20 +20,6 @@
                                 Welcome Back, Please enter your detail
                             </p>
                         </div>
-                        @if ($errors->any())
-                            @foreach ($errors->all() as $error)
-                                <div id="mainalert1"
-                                    class=" border scale-0 shadow-lg right-0 bottom-0 flex gap-4 items-center  lg:mr-0 lg:mb-5 mr-3 min-w-72 max-w-96  absolute  bg-white px-4  py-3 rounded-lg"
-                                    role="alert">
-                                    <div class="flex items-center gap-2 "><span class="text-red-500"><i
-                                                class="fa-light fa-circle-xmark"></i></span><span>{{ $error }}</span>
-                                    </div>
-                                    <button onclick="alert(event,'mainalert1')" id="hidealert"
-                                        class=" top-0 bottom-0 right-0 ">
-                                        <i class="fa-duotone fa-light fa-xmark"></i> </button>
-                                </div>
-                            @endforeach
-                        @endif
 
                         <div class="button mt-4 bg-white border flex items-center px-4 py-1.5 rounded-xl ">
                             <div class=" border-e flex items-center h-8">

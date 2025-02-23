@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\HeadOffice;
+use App\Models\Resort;
 
 class BranchOffice extends Model
 {
@@ -29,4 +30,16 @@ class BranchOffice extends Model
     {
         return $this->belongsTo(HeadOffice::class, "head_id");
     }
+
+    public function resorts(){
+        return $this->hasMany(Resort::class, "branch_id");
+    }
+
+    public function user(){
+        return $this->hasMany(User::class, "branch_id");
+    }
+    public function pdl(){
+        return $this->hasMany(Pdl::class, "branch_id");
+    }
+
 }

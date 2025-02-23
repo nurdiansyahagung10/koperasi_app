@@ -2,6 +2,8 @@
 
 @section('dashboardmain')
     <section id="section-roles-dashboard " class="flex-1">
+        @include('dashboard.layout.errors_notification')
+
         <div class="w-full  flex h-full justify-center items-center">
 
             <form method="POST" id="formpost" class="w-full flex flex-col gap-4 mt-2.5 "
@@ -10,21 +12,7 @@
 
                 @csrf
 
-                @if ($errors->any())
-                    <div class="mb-8 flex flex-col gap-4 right-0 bottom-0 mr-8 absolute">
-                        @foreach ($errors->all() as $error)
-                            <div id="mainalert-{{ $loop->iteration }}"
-                                class=" border shadow-lg  flex gap-4 items-center min-w-72 max-w-96    bg-white px-4  py-3 rounded-lg"
-                                role="alert">
-                                <div class="flex w-full items-center gap-2 "><span class="text-red-500"><i
-                                            class="fa-light fa-circle-xmark"></i></span><span>{{ $error }}</span>
-                                </div>
-                                <button onclick="alert(event,'mainalert1')" id="hidealert" class=" top-0 bottom-0 right-0 ">
-                                    <i class="fa-duotone fa-light fa-xmark"></i> </button>
-                            </div>
-                        @endforeach
-                    </div>
-                @endif
+
 
                 <div class="grid grid-cols-1 gap-4">
                     <div class="button  bg-white border flex items-center px-4 py-1.5 rounded-xl ">

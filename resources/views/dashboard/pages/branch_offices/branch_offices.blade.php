@@ -2,17 +2,8 @@
 
 @section('dashboardmain')
     <section id="section-roles-dashboard" class="flex-1">
-        @if (session('success'))
-            <div id="mainalert1"
-                class=" border shadow-lg right-0 bottom-0 flex gap-4 items-center  mr-8 mb-8 min-w-72 max-w-96  absolute  bg-white px-4  py-3 rounded-lg"
-                role="alert">
-                <div class="flex items-center gap-2 "><span class="text-green-500"><i
-                            class="fa-light fa-circle-check"></i></span><span>{{ session('success') }}</span></div>
-                <button onclick="alert(event,'mainalert1')" id="hidealert" class=" top-0 bottom-0 right-0 ">
-                    <i class="fa-duotone fa-light fa-xmark"></i> </button>
-            </div>
+        @include('dashboard.layout.success_notification')
 
-        @endif
         <div class=" flex justify-between p-2 items-center  ">
             <h2 class="text-lg font-semibold whitespace-nowrap
             ">Manajemen Head Office</h2>
@@ -42,6 +33,7 @@
                     <td class="text-center">Admin Charge</td>
                     <td class="text-center">Comision Charge</td>
                     <td class="text-center">Deposite</td>
+                    <td class="text-center">Created At</td>
                     <td class="rounded-br rounded-tr text-center px-2">Action</td>
                 </tr>
             </thead>

@@ -14,10 +14,10 @@ class HeadOfficeSeeder extends Seeder
     public function run(): void
     {
         HeadOffice::create([
-            "province"=> "jawa barat",
-            "city_or_regency"=> "cimahi",
-            "district" => "cimahi tengah",
-            "village"=> "cigugur tengah",
+            "province"=> "JAWA BARAT",
+            "city_or_regency"=> "KOTA CIMAHI",
+            "district" => "CIMAHI TENGAH",
+            "village"=> "CIGUGUR TENGAH",
             "rt_and_rw"=> 0204,
             "street_or_building_name" => "gg pelangi",
             "phone_number" => "83821391107"

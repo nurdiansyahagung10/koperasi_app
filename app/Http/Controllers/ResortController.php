@@ -36,7 +36,7 @@ class ResortController extends Controller
             }
         }
 
-        $pdl = Pdl::whereNotIn("branch_id", $pdl_id)->get();
+        $pdl = Pdl::whereNotIn("id", $pdl_id)->where("branch_id", $branch_id)->get();
 
 
 
@@ -50,7 +50,7 @@ class ResortController extends Controller
     {
         $resortchecknumber = Resort::where(["branch_id" => $branch_id, "resort_number" => $request->resort_number])->get();
         $resortcheckpdl = Resort::where(["branch_id" => $branch_id, "pdl_id" => $request->pdl_id])->get()->first();
-        if (count($resortchecknumber) != 0) {
+        if (!$resortchecknumber->isEmpty()) {
             return redirect()->back()->withErrors("That Resort Number Has Used");
         } else if ($resortcheckpdl && $resortcheckpdl->pdl_id != Null) {
             return redirect()->back()->withErrors("That Pdl Has Have Resort");
@@ -58,13 +58,14 @@ class ResortController extends Controller
         } else {
             $validatedata = $request->validate([
                 'pdl_id' => "integer|nullable",
-                'branch_id' => "integer|required",
                 'resort_number' => "required|integer",
             ]);
 
+            $validatedata["branch_id"] = $branch_id;
+
             Resort::create($validatedata);
 
-            return redirect()->route("resort", ["branch_id" => $branch_id])->with("success", "Success Add Resort Data");
+            return redirect()->route("resorts", ["branch_id" => $branch_id])->with("success", "Success Add Resort Data");
 
         }
     }
@@ -80,25 +81,15 @@ class ResortController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit($branch_id, $id)
+    public function edit($branch_id, Resort $resort)
     {
         $branch = BranchOffice::find($branch_id);
-        $resort = Resort::find($id);
         $resortnumber = [];
-        $pdl_id = [];
         for ($i = 1; $i <= $branch->maxresort; $i++) {
             array_push($resortnumber, $i);
         }
-        $resortcheck = Resort::where("branch_id", $branch_id)->get();
-        if ($resortcheck) {
-            foreach ($resortcheck as $value) {
-                $resortnumber = array_diff($resortnumber, array("$value->resort_number"));
-                array_push($pdl_id, $value->pdl_id);
-            }
-        }
 
-        $pdl = Pdl::whereNotIn("branch_id", $pdl_id)->get();
-
+        $pdl = Pdl::where("branch_id", $branch_id)->get();
 
         return view("dashboard.pages.branch_offices.resort.resort_edit")->with(["pdl" => $pdl, "resortnumber" => $resortnumber, "resort" => $resort, "branch_id" => $branch_id]);
     }
@@ -106,27 +97,37 @@ class ResortController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request ,$branch_id, $id)
-    {   
-        $resort = Resort::find($id);
-        $resortchecknumber = Resort::where(["branch_id" => $branch_id, "resort_number" => $request->resort_number])->get();
-        $resortcheckpdl = Resort::where(["branch_id" => $branch_id, "pdl_id" => $request->pdl_id])->get()->first();
-        if (count($resortchecknumber) != 0 && $resort->resort_number != $request->resort_number) {
-            return redirect()->back()->withErrors("That Resort Number Has Used");
-        } else if ($resortcheckpdl && $resortcheckpdl->pdl_id != Null && $resort->pdl_id != $request->pdl_id->id) {
-            return redirect()->back()->withErrors("That Pdl Has Have Resort");
-        } else {
-            $validatedata = $request->validate([
-                'pdl_id' => "integer|nullable",
-                'branch_id' => "integer|required",
-                'resort_number' => "required|integer",
-            ]);
-            
-                $resort->update($validatedata);
+    public function update(Request $request, $branch_id, Resort $resort)
+    {
 
-            return redirect()->route("resort", ["branch_id" => $branch_id])->with("success", "Success Edit Resort Data");
+        $validatedata = $request->validate([
+            'pdl_id' => "integer|nullable",
+            'resort_number' => "required|integer",
+        ]);
 
+        if ($request->resort_number != $resort->resort_number) {
+            $resortchecknumber = Resort::where(["branch_id" => $branch_id, "resort_number" => $request->resort_number])->first();
+
+            if ($resortchecknumber) {
+                $resortchecknumber->update(["resort_number" => $resort->resort_number]);
+            }
         }
+
+
+        if ($request->pdl_id != $resort->pdl_id) {
+            $resortcheckpdl = Resort::where(["branch_id" => $branch_id, "pdl_id" => $request->pdl_id])->first();
+
+            if ($resortcheckpdl) {
+                $resortcheckpdl->update(["pdl_id" => $resort->pdl_id]);
+            }
+        }
+        
+        $validatedata["branch_id"] = $branch_id;
+
+        $resort->update($validatedata);
+
+        return redirect()->route("resorts", ["branch_id" => $branch_id])->with("success", "Success Edit Resort Data");
+
     }
 
     /**

@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Pdl;
+use App\Models\DetailResort;
+use App\Models\BranchOffice;
 
 class Resort extends Model
 {
@@ -16,6 +18,14 @@ class Resort extends Model
     ];
 
     public function pdl(){
-        $this->belongsTo(pdl::class);
+       return $this->belongsTo(pdl::class);
+    }
+
+    public function detail_resorts(){
+        return $this->hasMany(DetailResort::class, "resort_id");
+    }
+
+    public function branch_offices(){
+        return $this->belongsTo(BranchOffice::class, "branch_id");
     }
 }

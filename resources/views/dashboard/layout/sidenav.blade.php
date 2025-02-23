@@ -53,14 +53,15 @@
                 </div>
                 <div class="py-2 flex flex-col gap-3 border-gray-200 border-b">
 
-                    <button class="flex gap-2 py-1  px-2 btn-icon rounded-xl items-center ">
+                    <a href="{{ route('members') }}"
+                        class="flex gap-2 py-1 @if (implode('/', array_slice(explode('/', url()->current()), 0, 4)) == url('/members')) bg-white border text-black @endif  px-2 btn-icon rounded-xl items-center ">
                         <span class="">
                             <i class=" fa-light fa-user-check"></i> </span>
-                        <span class="text-icon whitespace-nowrap">Member</span>
-                    </button>
-                    <button onclick="sidenavdrawer(event, 'employes')"
-                        class="flex items-center btn-icon py-1 justify-between px-2 rounded-xl ">
-                        <div class="flex items-center gap-2">
+                        <span class="text-icon whitespace-nowrap">Members</span>
+                    </a>
+                    <button id="employees_button" onclick="sidenavdrawer(event, 'employees')"
+                        class="flex cursor-pointer @if (implode('/', array_slice(explode('/', url()->current()), 4, 1)) == 'employees') bg-white border text-black @endif  items-center btn-icon py-1 justify-between px-2 rounded-xl ">
+                        <div class=" flex items-center gap-2">
                             <span class="">
                                 <i class=" fa-light fa-user-group"></i>
                             </span>
@@ -69,10 +70,10 @@
                         <span class="-rotate-90 arrow-drawer text-icon"><i
                                 class="text-xs fa-regular fa-angle-left"></i></span>
                     </button>
-                    <div id="employes" class="h-0 mb-3 overflow-hidden hidden">
-                        <div class=" flex flex-col ms-[1.15rem]">
-                            <button onclick="sidenavdrawer(event, 'head')"
-                                class="flex justify-between border-l border-black py-2.5 relative items-center before:bg-black before:left-0 before:w-3 before:h-[0.05rem] before:absolute gap-2 ps-5 pe-2 ">
+                    <div id="employees" class="h-0 cursor-pointer mb-3 overflow-hidden hidden">
+                        <div class="  flex flex-col ms-[1.15rem]">
+                            <button id="head_button" onclick="sidenavdrawer(event, 'head')"
+                                class="flex cursor-pointer justify-between border-l @if (implode('/', array_slice(explode('/', url()->current()), 4, 2)) == 'employees/head_employees') !border-black before:!bg-black @elseif (implode('/', array_slice(explode('/', url()->current()), 4, 2)) == 'employees/branch_employees') !border-black @endif  border-stone-300 py-2.5 relative items-center before:bg-stone-300 before:left-0 before:w-3 before:h-[0.05rem] before:absolute gap-2 ps-5 pe-2 ">
                                 <span>Head</span>
                                 <span class="-rotate-90 arrow-drawer"><i
                                         class="text-xs fa-regular fa-angle-left"></i></span>
@@ -80,35 +81,39 @@
                         </div>
                         <div id="head" class="overflow-hidden h-0">
                             <div class=" flex flex-col ms-[2rem]">
-                                <button
-                                    class="flex  border-l border-black py-2.5 relative items-center before:bg-black before:left-0 before:w-3 before:h-[0.05rem] before:absolute gap-2 ps-5 pe-2 ">
+                                <a href="{{ route('head_employees', ['role' => 'head_leaders']) }}"
+                                    class="flex  border-l @if (implode('/', array_slice(explode('/', url()->current()), 0, 4)) == url('/head_leaders')) !border-black before:!bg-black @elseif (implode('/', array_slice(explode('/', url()->current()), 0, 4)) == url('/coordinator') ||
+                                            implode('/', array_slice(explode('/', url()->current()), 0, 4)) == url('/head_cashier') ||
+                                            implode('/', array_slice(explode('/', url()->current()), 0, 4)) == url('/head_recap')) !border-black @endif border-stone-300 py-2.5 relative items-center before:bg-stone-300 before:left-0 before:w-3 before:h-[0.05rem] before:absolute gap-2 ps-5 pe-2 ">
                                     <span>Head Leader</span>
-                                </button>
+                                </a>
                             </div>
                             <div class=" flex flex-col ms-[2rem]">
-                                <button
-                                    class="flex  border-l border-black py-2.5 relative items-center before:bg-black before:left-0 before:w-3 before:h-[0.05rem] before:absolute gap-2 ps-5 pe-2 ">
+                                <a href="{{ route('head_employees', ['role' => 'coordinator']) }}"
+                                    class="flex  border-l @if (implode('/', array_slice(explode('/', url()->current()), 0, 4)) == url('/coordinator')) !border-black before:!bg-black @elseif (implode('/', array_slice(explode('/', url()->current()), 0, 4)) == url('/head_cashier') ||
+                                            implode('/', array_slice(explode('/', url()->current()), 0, 4)) == url('/head_recap')) !border-black @endif border-stone-300 py-2.5 relative items-center before:bg-stone-300 before:left-0 before:w-3 before:h-[0.05rem] before:absolute gap-2 ps-5 pe-2 ">
                                     <span>Coordinator</span>
 
-                                </button>
+                                </a>
                             </div>
                             <div class=" flex flex-col ms-[2rem]">
-                                <button
-                                    class="flex  border-l border-black py-2.5 relative items-center before:bg-black before:left-0 before:w-3 before:h-[0.05rem] before:absolute gap-2 ps-5 pe-2 ">
+                                <a href="{{ route('head_employees', ['role' => 'head_cashier']) }}"
+                                    class="flex  border-l @if (implode('/', array_slice(explode('/', url()->current()), 0, 4)) == url('/head_cashier')) !border-black before:!bg-black @elseif (implode('/', array_slice(explode('/', url()->current()), 0, 4)) == url('/head_recap')) !border-black @endif border-stone-300 py-2.5 relative items-center before:bg-stone-300 before:left-0 before:w-3 before:h-[0.05rem] before:absolute gap-2 ps-5 pe-2 ">
                                     <span>Cashier</span>
-                                </button>
+                                </a>
                             </div>
                             <div class=" flex flex-col ms-[2rem]">
-                                <button
-                                    class="flex  border-l border-black py-2.5 relative items-center before:bg-black before:left-0 before:w-3 before:h-[0.05rem] before:absolute gap-2 ps-5 pe-2 ">
+                                <a href="{{ route('head_employees', ['role' => 'head_recap']) }}"
+                                    class="flex  border-l @if (implode('/', array_slice(explode('/', url()->current()), 0, 4)) == url('/head_recap')) !border-black before:!bg-black @endif border-stone-300 py-2.5 relative items-center before:bg-stone-300 before:left-0 before:w-3 before:h-[0.05rem] before:absolute gap-2 ps-5 pe-2 ">
                                     <span>Recap</span>
-                                </button>
+                                </a>
                             </div>
 
                         </div>
                         <div class=" flex flex-col ms-[1.15rem]">
-                            <button onclick="sidenavdrawer(event, 'branch')"
-                                class="flex justify-between border-l border-black py-2.5 relative items-center before:bg-black before:left-0 before:w-3 before:h-[0.05rem] before:absolute gap-2 ps-5 pe-2 ">
+                            <button id="branch_button" onclick="sidenavdrawer(event, 'branch')"
+                                class="flex cursor-pointer justify-between border-l @if (implode('/', array_slice(explode('/', url()->current()), 4, 2)) == 'employees/branch_employees' ||
+                                        implode('/', array_slice(explode('/', url()->current()), 4, 1)) == 'branch_employees') !border-black before:!bg-black @endif  border-stone-300 py-2.5 relative items-center before:bg-stone-300 before:left-0 before:w-3 before:h-[0.05rem] before:absolute gap-2 ps-5 pe-2 ">
                                 <span>Branch</span>
                                 <span class="-rotate-90 arrow-drawer"><i
                                         class="text-xs fa-regular fa-angle-left"></i></span>
@@ -118,22 +123,31 @@
                         <div id="branch" class="overflow-hidden h-0">
 
                             <div class=" flex flex-col ms-[2rem]">
-                                <button
-                                    class="flex  border-l border-black py-2.5 relative items-center before:bg-black before:left-0 before:w-3 before:h-[0.05rem] before:absolute gap-2 ps-5 pe-2 ">
+                                <a href="{{ route('branch_employees', ['role' => 'manager']) }}"
+                                    class="flex  border-l @if (implode('/', array_slice(explode('/', url()->current()), 0, 4)) == url('/manager')) !border-black before:!bg-black @elseif (implode('/', array_slice(explode('/', url()->current()), 0, 4)) == url('/branch_cashier') ||
+                                            implode('/', array_slice(explode('/', url()->current()), 0, 4)) == url('/branch_recap') ||
+                                            implode('/', array_slice(explode('/', url()->current()), 0, 4)) == url('/pdls')) !border-black @endif border-stone-300 py-2.5 relative items-center before:bg-stone-300 before:left-0 before:w-3 before:h-[0.05rem] before:absolute gap-2 ps-5 pe-2 ">
+                                    <span>Manager</span>
+                                </a>
+                            </div>
+                            <div class=" flex flex-col ms-[2rem]">
+                                <a href="{{ route('branch_employees', ['role' => 'branch_cashier']) }}"
+                                    class="flex  border-l @if (implode('/', array_slice(explode('/', url()->current()), 0, 4)) == url('/branch_cashier')) !border-black before:!bg-black @elseif (implode('/', array_slice(explode('/', url()->current()), 0, 4)) == url('/branch_recap') ||
+                                            implode('/', array_slice(explode('/', url()->current()), 0, 4)) == url('/pdls')) !border-black @endif border-stone-300 py-2.5 relative items-center before:bg-stone-300 before:left-0 before:w-3 before:h-[0.05rem] before:absolute gap-2 ps-5 pe-2 ">
                                     <span>Cashier</span>
-                                </button>
+                                </a>
                             </div>
                             <div class=" flex flex-col ms-[2rem]">
-                                <button
-                                    class="flex  border-l border-black py-2.5 relative items-center before:bg-black before:left-0 before:w-3 before:h-[0.05rem] before:absolute gap-2 ps-5 pe-2 ">
+                                <a href="{{ route('branch_employees', ['role' => 'branch_recap']) }}"
+                                    class="flex  border-l @if (implode('/', array_slice(explode('/', url()->current()), 0, 4)) == url('/branch_recap')) !border-black before:!bg-black @elseif (implode('/', array_slice(explode('/', url()->current()), 0, 4)) == url('/pdls')) !border-black @endif border-stone-300 py-2.5 relative items-center before:bg-stone-300 before:left-0 before:w-3 before:h-[0.05rem] before:absolute gap-2 ps-5 pe-2 ">
                                     <span>Recap</span>
-                                </button>
+                                </a>
                             </div>
                             <div class=" flex flex-col ms-[2rem]">
-                                <button
-                                    class="flex  border-l border-black py-2.5 relative items-center before:bg-black before:left-0 before:w-3 before:h-[0.05rem] before:absolute gap-2 ps-5 pe-2 ">
+                                <a href="{{ route('pdls') }}"
+                                    class="flex  border-l @if (implode('/', array_slice(explode('/', url()->current()), 0, 4)) == url('/pdls')) !border-black before:!bg-black @endif border-stone-300 py-2.5 relative items-center before:bg-stone-300 before:left-0 before:w-3 before:h-[0.05rem] before:absolute gap-2 ps-5 pe-2 ">
                                     <span>Pdl</span>
-                                </button>
+                                </a>
                             </div>
 
                         </div>
@@ -158,13 +172,13 @@
                     <div id="pdlmonitor" class="h-0 overflow-hidden hidden">
                         <div class=" flex flex-col ms-[1.15rem]">
                             <button
-                                class="flex  border-l border-black py-2.5 relative items-center before:bg-black before:left-0 before:w-3 before:h-[0.05rem] before:absolute gap-2 ps-5 pe-2 ">
+                                class="flex  border-l border-stone-300 py-2.5 relative items-center before:bg-stone-300 before:left-0 before:w-3 before:h-[0.05rem] before:absolute gap-2 ps-5 pe-2 ">
                                 <span>Cash Monitor</span>
                             </button>
                         </div>
                         <div class=" flex flex-col ms-[1.15rem]">
                             <button
-                                class="flex  border-l border-black py-2.5 relative items-center before:bg-black before:left-0 before:w-3 before:h-[0.05rem] before:absolute gap-2 ps-5 pe-2 ">
+                                class="flex  border-l border-stone-300 py-2.5 relative items-center before:bg-stone-300 before:left-0 before:w-3 before:h-[0.05rem] before:absolute gap-2 ps-5 pe-2 ">
                                 <span>Target Monitor</span>
                             </button>
                         </div>
@@ -176,11 +190,12 @@
                         </span>
                         <span class="text-icon whitespace-nowrap">Cash Deposite</span>
                     </button>
-                    <button class="flex gap-2 py-1  px-2 btn-icon rounded-xl items-center ">
+                    <a href="{{ route('advance_payments') }}"
+                        class="flex gap-2 py-1 @if (implode('/', array_slice(explode('/', url()->current()), 0, 4)) == url('/advance_payments')) bg-white border text-black @endif  px-2 btn-icon rounded-xl items-center ">
                         <span class="">
                             <i class=" fa-light fa-rectangle-history-circle-user"></i> </span>
                         <span class="text-icon whitespace-nowrap">Advance Payment</span>
-                    </button>
+                    </a>
                     <button class="flex gap-2 py-1  px-2 btn-icon rounded-xl items-center ">
                         <span class="">
                             <i class=" fa-light fa-money-simple-from-bracket"></i>

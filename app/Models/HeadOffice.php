@@ -24,4 +24,11 @@ class HeadOffice extends Model
         return $this->hasMany(BranchOffice::class, "head_id");
     }
 
+    public function user(){
+        return $this->hasMany(User::class, "head_id");
+    }
+    public function pdl(){
+        return $this->hasMany(Pdl::class, "head_id");
+    }
+
 }

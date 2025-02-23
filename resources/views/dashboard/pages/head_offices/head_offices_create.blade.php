@@ -2,26 +2,16 @@
 
 @section('dashboardmain')
     <section id="section-roles-dashboard " class="flex-1">
+        @include('dashboard.layout.errors_notification')
+
         <div class="w-full  flex h-full justify-center items-center">
 
-            <form method="POST" id="formpost" class="w-full flex flex-col gap-4 mt-2.5 " action="{{ route('head_offices.store') }}">
+            <form method="POST" id="formpost" class="w-full flex flex-col gap-4 mt-2.5 "
+                action="{{ route('head_offices.store') }}">
                 <h2 class="text-lg font-semibold">Add Head Office Data</h2>
 
                 @csrf
 
-                @if ($errors->any())
-                    @foreach ($errors->all() as $error)
-                        <div id="mainalert1"
-                            class=" border shadow-lg right-0 bottom-0 flex gap-4 items-center  mb-8 mr-8 min-w-72 max-w-96  absolute  bg-white px-4  py-3 rounded-lg"
-                            role="alert">
-                            <div class="flex items-center gap-2 "><span class="text-red-500"><i
-                                        class="fa-light fa-circle-xmark"></i></span><span>{{ $error }}</span>
-                            </div>
-                            <button onclick="alert(event,'mainalert1')" id="hidealert" class=" top-0 bottom-0 right-0 ">
-                                <i class="fa-duotone fa-light fa-xmark"></i> </button>
-                        </div>
-                    @endforeach
-                @endif
                 <div class="grid grid-cols-1 gap-4">
                     <div class="button  bg-white border flex items-center px-4 py-1.5 rounded-xl ">
                         <div class="flex flex-col w-full">
@@ -107,7 +97,7 @@
         </div>
     </section>
     <script>
-        const province = document.getElementById("province");
+        const head_offices = document.getElementById("head_offices");
         const city_or_regency = document.getElementById("city_or_regency");
         const district = document.getElementById("district");
         const village = document.getElementById("village");
@@ -118,7 +108,6 @@
         const phone_number = document.getElementById("phone_number");
         const rt_and_rw = document.getElementById("rt_and_rw");
         const formpost = document.getElementById("formpost");
-
 
         function setting_length_number(event, maxlength) {
             if (event.target.value.length > maxlength) {
@@ -140,6 +129,7 @@
         phone_number.addEventListener("input", (event) => {
             setting_length_number(event, 13)
         })
+
 
 
 
@@ -269,16 +259,14 @@
 
         })
 
-        rt.addEventListener("input", (event) => {
-            rtvalue = event.target.value;
+        formpost.addEventListener("submit", (event) => {
+            event.preventDefault();
+            rtvalue = rt.value;
+            rwvalue = rw.value;
+            console.log(rwvalue);
             rt_and_rw.value = rtvalue + "" + rwvalue;
-
-        })
-        rw.addEventListener("input", (event) => {
-            rwvalue = event.target.value;
-            rt_and_rw.value = rtvalue + "" + rwvalue;
-        })
-
+            event.target.submit();
+        });
 
         get_province();
 

@@ -20,10 +20,17 @@ class User extends Authenticatable implements JWTSubject
      * @var list<string>
      */
     protected $fillable = [
-        'name',
+        'user_name',
         'email',
+        'basic_salary',
+        'salary_date',
+        'hometown',
+        'phone_number',
+        'sk',
         'password',
-
+        'role_id',
+        'branch_id',
+        'head_id',
     ];
 
     /**
@@ -49,7 +56,7 @@ class User extends Authenticatable implements JWTSubject
         ];
     }
 
-      /**
+    /**
      * Get the identifier that will be stored in the subject claim of the JWT.
      *
      * @return mixed
@@ -69,9 +76,25 @@ class User extends Authenticatable implements JWTSubject
         return [];
     }
 
-    public function role(){
+    public function role()
+    {
         return $this->belongsTo(Role::class);
     }
+
+    public function head_office()
+    {
+        return $this->belongsTo(HeadOffice::class, "head_id");
+    }
+    public function branch_office()
+    {
+        return $this->belongsTo(BranchOffice::class, "branch_id");
+    }
+
+    public function advance_payment()
+    {
+        return $this->hasMany(advance_payment::class, "user_id");
+    }
+
 
 
 }

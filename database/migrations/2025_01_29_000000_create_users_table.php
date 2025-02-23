@@ -15,11 +15,18 @@ return new class extends Migration
             $table->id();
             $table->string('user_name');
             $table->string('email')->unique();
+            $table->integer("basic_salary");
+            $table->integer("salary_date");
+            $table->text("hometown");
+            $table->string('phone_number', 13);
+            $table->string('sk');
             $table->string('password');
             $table->unsignedBigInteger("role_id")->index();
             $table->foreign("role_id")->references("id")->on("roles")->cascadeOnDelete();
             $table->unsignedBigInteger("branch_id")->index()->nullable(true);
             $table->foreign("branch_id")->references("id")->on("branch_offices")->cascadeOnDelete();
+            $table->unsignedBigInteger("head_id")->index()->nullable(true);
+            $table->foreign("head_id")->references("id")->on("head_offices")->cascadeOnDelete();
             $table->rememberToken();
             $table->timestamps();
         });

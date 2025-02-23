@@ -2,6 +2,8 @@
 
 @section('dashboardmain')
     <section id="section-roles-dashboard " class="flex-1">
+        @include('dashboard.layout.errors_notification')
+
         <div class="w-full  flex h-full justify-center items-center">
 
             <form method="POST" class="w-full flex flex-col gap-4 mt-2.5 " id="formpost"
@@ -10,24 +12,7 @@
                 @csrf
                 @method('PUT')
 
-                @if ($errors->any())
-                    @foreach ($errors->all() as $error)
-                        <div id="mainalert{{ $loop->iteration }}"
-                            class="bg-red-100 border mt-4 border-red-400 text-red-700 px-4 max-w-80 py-3 rounded-sm relative"
-                            role="alert">
-                            <span class="block text-sm md:text-base sm:inline">{{ $error }}</span>
-                            <button onclick="testing(event,'mainalert{{ $loop->iteration }}')" id="hidealert"
-                                class="absolute top-0 bottom-0 right-0 px-4 py-3">
-                                <svg class="fill-current h-6 w-6 text-red-500" role="button"
-                                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                    <title>Close</title>
-                                    <path
-                                        d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z" />
-                                </svg>
-                            </button>
-                        </div>
-                    @endforeach
-                @endif
+
                 <div class="grid grid-cols-1 gap-4">
                     <div class="button  bg-white border flex items-center px-4 py-1.5 rounded-xl ">
                         <div class="flex flex-col w-full">
@@ -130,10 +115,23 @@
                 <div class="grid grid-cols-1 gap-4">
                     <div class="button  bg-white border flex items-center px-4 py-1.5 rounded-xl ">
                         <div class="flex flex-col w-full">
+                            <label class=" text-xs text-gray-500 whitespace-nowrap">Max Resort<span
+                                    class="text-red-600">*</span></label>
+                            <div class="flex">
+                                <input required type="number" name="maxresort" id="maxresort" value="{{$branch_offices->maxresort}}"
+                                    class="w-full outline-none  text-sm border-none shadow-none ">
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 gap-4">
+                    <div class="button  bg-white border flex items-center px-4 py-1.5 rounded-xl ">
+                        <div class="flex flex-col w-full">
                             <label class=" text-xs text-gray-500 whitespace-nowrap">Service Charge<span
                                     class="text-red-600">*</span></label>
                             <div class="flex">
-                                <input required name="service_charge" id="service_charge"
+                                <input required type="number" name="service_charge" id="service_charge"
                                     class="w-full outline-none  text-sm border-none shadow-none "
                                     value="{{ $branch_offices->service_charge }}">
                                 <span class="text-sm">%</span>
@@ -148,7 +146,7 @@
                             <label class=" text-xs text-gray-500 whitespace-nowrap">Admin Charge<span
                                     class="text-red-600">*</span></label>
                             <div class="flex">
-                                <input required name="admin_charge" id="admin_charge"
+                                <input required type="number" name="admin_charge" id="admin_charge"
                                     class="w-full outline-none  text-sm border-none shadow-none "
                                     value="{{ $branch_offices->admin_charge }}">
                                 <span class="text-sm">%</span>
@@ -162,7 +160,7 @@
                             <label class=" text-xs text-gray-500 whitespace-nowrap">Comision Charge<span
                                     class="text-red-600">*</span></label>
                             <div class="flex">
-                                <input required name="comision_charge" id="comision_charge"
+                                <input required type="number" name="comision_charge" id="comision_charge"
                                     class="w-full outline-none  text-sm border-none shadow-none "
                                     value="{{ $branch_offices->comision_charge }}">
                                 <span class="text-sm">%</span>
@@ -176,7 +174,7 @@
                             <label class=" text-xs text-gray-500 whitespace-nowrap">Deposite<span
                                     class="text-red-600">*</span></label>
                             <div class="flex">
-                                <input required name="deposite" id="deposite"
+                                <input required type="number" name="deposite" id="deposite"
                                     class="w-full outline-none  text-sm border-none shadow-none "
                                     value="{{ $branch_offices->deposite }}">
                                 <span class="text-sm">%</span>
@@ -184,7 +182,7 @@
                         </div>
                     </div>
                 </div>
-                <button  class="px-4 py-2.5 bg-black text-white rounded-xl w-full">Submit</button>
+                <button class="px-4 py-2.5 bg-black text-white rounded-xl w-full">Submit</button>
             </form>
         </div>
     </section>
