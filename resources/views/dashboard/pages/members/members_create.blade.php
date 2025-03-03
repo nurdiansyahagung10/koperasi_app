@@ -49,7 +49,7 @@
                     <div class="flex flex-col w-full">
                         <label class=" text-xs text-gray-500 whitespace-nowrap">Detailresort<span
                                 class="text-red-600">*</span></label>
-                        <select required name="detail_resort_id" id="detail_resort_id"
+                        <select required name="detail_resort" id="detail_resort"
                             class="w-full outline-hidden -translate-x-1 text-sm border-none shadow-none ">
                             <option value="">Select Resort First</option>
                         </select>
@@ -341,7 +341,7 @@
     <script>
         const branch_office = document.getElementById("branch_office");
         const resort = document.getElementById("resort");
-        const detail_resort_id = document.getElementById("detail_resort_id");
+        const detail_resort = document.getElementById("detail_resort");
         const city_or_regency = document.getElementById("city_or_regency");
         const district = document.getElementById("district");
         const village = document.getElementById("village");
@@ -380,7 +380,6 @@
 
         function dragstart(event) {
             const second_show_previmage = event.target.closest('button').querySelector(`.second-show-previmage`);
-            console.log(second_show_previmage);
             dragzone++;
             if (dragzone != 0) {
                 second_show_previmage.classList.add("!visible");
@@ -415,7 +414,6 @@
 
         }
 
-
         function setting_length_number(event, maxlength) {
             if (event.target.value.length > maxlength) {
                 event.target.value = event.target.value.slice(0, maxlength);
@@ -444,245 +442,344 @@
             setting_length_number(event, 16)
         })
 
-        async function get_province() {
 
-            province.innerHTML = `
-                    <option value="">Loading...</option>
+
+
+        branch_office.innerHTML = `
+                    <option value="">Select Branch Office</option>
+                `;
+        resort.innerHTML = `
+                    <option value="">Select Branch Office First</option>
+                `;
+        detail_resort.innerHTML = `
+                    <option value="">Select Resort First</option>
+                `;
+        city_or_regency.innerHTML = `
+                    <option value="">Select Province First</option>
+                `;
+        district.innerHTML = `
+                    <option value="">Select city Or Regency First</option>
+                `;
+        village.innerHTML = `
+                    <option value="">Select District First</option>
                 `;
 
-            const response = await fetch(`https://www.emsifa.com/api-wilayah-indonesia/api/provinces.json`);
 
-            const data = await response.json();
 
-            province.innerHTML = `
-                    <option value="">Select Province</option>
-                `;
 
-            data.forEach(item => {
-                province.innerHTML += `
-                    <option value="${item.name}" data-id="${item.id}">${item.name}</option>
-                `;
-            });
 
-        }
 
-        async function get_branch_offices(head_offices) {
+
+
+
+        async function get_branch_offices(head_office) {
 
             branch_office.innerHTML = `
-        <option value="">Loading...</option>
-    `;
-
-            if (head_offices == "") {
+                    <option value="">Loading...</option>
+                `;
+            if (head_office == "") {
                 branch_office.innerHTML = `
-        <option value="">Select Head Office First</option>
-    `;
+                    <option value="">Select Head Office First</option>
+                `;
 
             } else {
                 const response = await fetch(`http://127.0.0.1:8000/api/v1/get_branch_offices/head_office/` +
-                    head_offices, api_config());
-
+                    head_office, api_config());
                 const data = await response.json();
 
                 if (data.body.length != 0) {
                     branch_office.innerHTML = `
-<option value="">Select Branch Office</option>
-`;
+                        <option value="">Select Branch Office</option>
+                    `;
+                    data.body.forEach(item => {
 
+                        branch_office.innerHTML += `
+                            <option value="${item.id}" >${item.branch_name}</option>
+                            `;
+
+
+                    });
                 } else {
                     branch_office.innerHTML = `
-<option value="">Not Have Branch Office</option>
-`;
+                        <option value="">Not Have Branch Office</option>
+                    `;
 
                 }
 
-                data.body.forEach(item => {
-                    branch_office.innerHTML += `
-<option value="${item.id}" >${item.branch_name}</option>
-`;
-                });
-
             }
-
+            get_resort("");
         }
 
-        async function get_resort(branch_id) {
+
+        async function get_resort(branch_office) {
 
             resort.innerHTML = `
                     <option value="">Loading...</option>
                 `;
 
-            if (branch_id == "") {
+            if (branch_office == "") {
                 resort.innerHTML = `
-        <option value="">Select Branch Office First</option>
-    `;
-            } else {
-                const response = await fetch(`http://127.0.0.1:8000/api/v1/resorts/branch_office/${branch_id}/resort`,
-                    api_config());
+                    <option value="">Select Resort First</option>
+                `;
 
+            } else {
+                const response = await fetch(
+                    `http://127.0.0.1:8000/api/v1/resorts/branch_office/${branch_office}/resort`,
+                    api_config());
                 const data = await response.json();
 
                 if (data.body.length != 0) {
+
                     resort.innerHTML = `
-                    <option value="">Select Resort</option>
-                `;
+                          <option value="">Select Resort</option>
+                        `;
+                    data.body.forEach(item => {
+
+                        resort.innerHTML += `
+                            <option value="${item.id}" >${item.resort_number}</option>
+                            `;
+
+
+                    });
+
 
                 } else {
                     resort.innerHTML = `
-                    <option value="">Not Have Resort</option>
-                `;
+                        <option value="">Not Have Resort</option>
+                    `;
+
 
                 }
-                data.body.forEach(item => {
-                    resort.innerHTML += `
-                    <option value="${item.id}" >${item.resort_number}</option>
-                `;
-                });
-            }
 
+            }
+            get_detail_resort("");
         }
 
-
-        async function get_detail_resort_id(resort_id) {
-
-
-            detail_resort_id.innerHTML = `
+        async function get_detail_resort(resort) {
+            detail_resort.innerHTML = `
                     <option value="">Loading...</option>
                 `;
-
-
-            if (resort_id == "") {
-                detail_resort_id.innerHTML = `
-                <option value="">Select Branch Office First</option>
-            `;
+            if (resort == "") {
+                detail_resort.innerHTML = `
+                    <option value="">Select Resort First</option>
+                `;
             } else {
-
                 const response = await fetch(
-                    `http://127.0.0.1:8000/api/v1/detailresorts/resort/${resort_id}/detailresort`,
+                    `http://127.0.0.1:8000/api/v1/detailresorts/resort/${resort}/detailresort`,
                     api_config());
-
                 const data = await response.json();
 
                 if (data.body.length != 0) {
-                    detail_resort_id.innerHTML = `
-                    <option value="">Select Detail Resort</option>
-                `;
 
+                    detail_resort.innerHTML = `
+                          <option value="">Select Detail Resort</option>
+                        `;
+                    data.body.forEach(item => {
+
+                        detail_resort.innerHTML = `
+                            <option value="${item.id}" >${item.day_code}</option>
+                            `;
+
+                    });
                 } else {
-                    detail_resort_id.innerHTML = `
-                    <option value="">Not Have Detail Resort</option>
-                `;
+                    detail_resort.innerHTML = `
+                        <option value="">Not Have Detail Resort</option>
+                    `;
 
                 }
 
-                data.body.forEach(item => {
-                    detail_resort_id.innerHTML += `
-                    <option value="${item.id}" >${item.day_code}</option>
-                `;
-                });
             }
-
-
         }
 
-        async function get_city_or_regency(province_id) {
-            city_or_regency.innerHTML = `
+        async function get_province() {
+
+
+            province.innerHTML = `
                     <option value="">Loading...</option>
                 `;
 
             const response = await fetch(
-                `https://www.emsifa.com/api-wilayah-indonesia/api/regencies/${province_id}.json`);
-
+                `https://www.emsifa.com/api-wilayah-indonesia/api/provinces.json`);
             const data = await response.json();
 
+            if (data.length != 0) {
+
+                province.innerHTML = `
+                          <option value="">Select Province</option>
+                        `;
+
+                data.forEach(item => {
+
+                    province.innerHTML +=
+                        `
+                        <option value="${item.name}" data-id="${item.id}">${item.name}</option>                            `;
+
+
+                });
+            } else {
+                province.innerHTML = `
+                        <option value="">Cant Get Province Data</option>
+                    `;
+            }
+            get_city_or_regency("");
+
+        }
+
+
+
+
+
+        async function get_city_or_regency(province_id) {
 
             city_or_regency.innerHTML = `
-                    <option value="">Select City Or Regency</option>
+                    <option value="">Loading...</option>
                 `;
 
-            data.forEach(item => {
-                city_or_regency.innerHTML += `
+            if (province_id == "") {
+                city_or_regency.innerHTML = `
+                    <option value="">Select Province First</option>
+                `;
+
+            } else {
+                const response = await fetch(
+                    `https://www.emsifa.com/api-wilayah-indonesia/api/regencies/${province_id}.json`);
+                const data = await response.json();
+
+                if (data.length != 0) {
+
+                    city_or_regency.innerHTML = `
+                          <option value="">Select City Or Regency</option>
+                        `;
+
+                    data.forEach(item => {
+
+                        city_or_regency.innerHTML += `
                     <option value="${item.name}" data-id="${item.id}">${item.name}</option>
-                `;
-            });
+                            `;
 
+
+                    });
+
+                } else {
+                    city_or_regency.innerHTML = `
+                        <option value="">Not Have City Or Regency</option>
+                    `;
+
+                }
+
+            }
+            get_district("");
         }
 
         async function get_district(city_or_regency_id) {
+
+
             district.innerHTML = `
                     <option value="">Loading...</option>
                 `;
 
-            const response = await fetch(
-                `https://www.emsifa.com/api-wilayah-indonesia/api/districts/${city_or_regency_id}.json`);
-
-            const data = await response.json();
-            district.innerHTML = `
-                    <option value="">Select District</option>
+            if (city_or_regency_id == "") {
+                district.innerHTML = `
+                    <option value="">Select City Or Regency First</option>
                 `;
 
-            data.forEach(item => {
-                district.innerHTML += `
+            } else {
+                const response = await fetch(
+                    `https://www.emsifa.com/api-wilayah-indonesia/api/districts/${city_or_regency_id}.json`);
+                const data = await response.json();
+                if (data.length != 0) {
+
+                    district.innerHTML = `
+                          <option value="">Select District</option>
+                        `;
+
+                    data.forEach(item => {
+
+                        district.innerHTML += `
                     <option value="${item.name}" data-id="${item.id}">${item.name}</option>
-                `;
-            });
+                            `;
 
+
+                    });
+
+                } else {
+                    district.innerHTML = `
+                        <option value="">Not Have District</option>
+                    `;
+
+                }
+
+
+            }
+            get_village("");
         }
 
 
         async function get_village(district_id) {
+
             village.innerHTML = `
                     <option value="">Loading...</option>
                 `;
 
-            const response = await fetch(
-                `https://www.emsifa.com/api-wilayah-indonesia/api/villages/${district_id}.json`);
-
-            const data = await response.json();
-
-            village.innerHTML = `
-                    <option value="">Select Village</option>
+            if (district_id == "") {
+                village.innerHTML = `
+                    <option value="">Select City Or Regency First</option>
                 `;
+            } else {
+                const response = await fetch(
+                    `https://www.emsifa.com/api-wilayah-indonesia/api/villages/${district_id}.json`);
+                const data = await response.json();
 
-            data.forEach(item => {
-                village.innerHTML += `
+                if (data.length != 0) {
+
+                    village.innerHTML = `
+                          <option value="">Select Village</option>
+                        `;
+
+                    data.forEach(item => {
+
+                        village.innerHTML += `
                     <option value="${item.name}" data-id="${item.id}">${item.name}</option>
-                `;
-            });
+                            `;
+
+                    });
+
+                } else {
+                    village.innerHTML = `
+                        <option value="">Not Have Village</option>
+                    `;
+
+                }
+
+            }
+
 
         }
 
+        head_office.addEventListener("change", (event) => {
+            get_branch_offices(event.target.value);
+        })
+
         province.addEventListener("change", (event) => {
-
             get_city_or_regency(event.target.options[event.target.selectedIndex].getAttribute("data-id"));
-
-        })
-
-        branch_office.addEventListener("change", (event) => {
-
-            get_resort(event.target.value);
-
-        })
-        resort.addEventListener("change", (event) => {
-
-            get_detail_resort_id(event.target.value);
-
         })
 
         city_or_regency.addEventListener("change", (event) => {
 
             get_district(event.target.options[event.target.selectedIndex].getAttribute("data-id"));
-
         })
+
         district.addEventListener("change", (event) => {
-
             get_village(event.target.options[event.target.selectedIndex].getAttribute("data-id"));
-
         })
 
-        head_office.addEventListener("change", (event) => {
-
-            get_branch_offices(event.target.value);
+        branch_office.addEventListener("change", (event) => {
+            get_resort(event.target.value);
         })
+        resort.addEventListener("change", (event) => {
+            get_detail_resort(event.target.value);
+        })
+
 
 
         formpost.addEventListener("submit", (event) => {

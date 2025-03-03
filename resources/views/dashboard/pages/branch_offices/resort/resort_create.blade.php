@@ -11,31 +11,28 @@
 
                 @csrf
 
-                <div class="button  bg-white border flex items-center px-4 py-1.5 rounded-xl ">
-                    <div class="flex flex-col w-full">
-                        <label class=" text-xs text-gray-500 whitespace-nowrap">Head Office<span
-                                class="text-red-600">*</span></label>
-                        <select required name="head_id" id="head_office"
-                            class="w-full outline-hidden -translate-x-1 text-sm border-none shadow-none ">
-                            <option value="">Select Head Office</option>
-                            @foreach ($head_offices as $item)
-                                <option value="{{ $item->id }}">{{ $item->province }}</option>
-                            @endforeach
-                        </select>
+
+                <div class="grid grid-cols-1 gap-4">
+                    <div class="button  bg-white border flex items-center px-4 py-1.5 rounded-xl ">
+                        <div class="flex flex-col w-full">
+                            <label class="text-xs text-gray-500 whitespace-nowrap">Pdl<span
+                                    class="text-red-600">*</span></label>
+                            <select name="pdl_id" id="pdl"
+                                class="w-full outline-hidden -translate-x-1 text-sm border-none shadow-none ">
+                                @if ($pdl == null)
+                                    <option value="">This Branch Not Have Pdl</option>
+                                @else
+
+                                    <option value="">Select Pdl</option>
+                                    @foreach ($pdl as $item)
+                                        <option value="{{ $item->id }}">{{ $item->pdl_name }}</option>
+                                    @endforeach
+                                @endif
+
+                            </select>
+                        </div>
                     </div>
                 </div>
-                <div class="button  bg-white border flex items-center px-4 py-1.5 rounded-xl ">
-                    <div class="flex flex-col w-full">
-                        <label class=" text-xs text-gray-500 whitespace-nowrap">Branch Office<span
-                                class="text-red-600">*</span></label>
-                        <select required name="branch_id" id="branch_office"
-                            class="w-full outline-hidden -translate-x-1 text-sm border-none shadow-none ">
-                            <option value="">Select Head Office First</option>
-                        </select>
-                    </div>
-                </div>
-
-
                 <div class="grid grid-cols-1 gap-4">
                     <div class="button  bg-white border flex items-center px-4 py-1.5 rounded-xl ">
                         <div class="flex flex-col w-full">

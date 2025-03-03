@@ -99,6 +99,13 @@ class ApiController extends Controller
 
         return response()->json(['body' => $resorts, 'message' => 'success'], 200);
     }
+    public function resorts_have_pdl(Request $request, $branch_id)
+    {
+        $resorts = Resort::with("pdl")->where("branch_id", $branch_id)->whereHas("pdl")->get();
+
+
+        return response()->json(['body' => $resorts, 'message' => 'success'], 200);
+    }
     public function detailresorts(Request $request, $resort_id)
     {
         $detailresorts = DetailResort::with("resorts")->where("resort_id", $resort_id)->get();
@@ -142,7 +149,7 @@ class ApiController extends Controller
 
     public function advance_payments(Request $request)
     {
-        $advance_payment = advance_payment::with(["user", "pdl"])->get();
+        $advance_payment = advance_payment::with(["user", "pdl", "detail_resort"])->get();
 
         return response()->json(['body' => $advance_payment, 'message' => 'success'], 200);
     }

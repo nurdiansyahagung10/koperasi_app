@@ -27,11 +27,12 @@
             <thead class="text-xs text-left bg-gray-100 rounded-xl overflow-hidden ">
                 <tr>
                     <td class="py-3 px-2 rounded-bl rounded-tl text-center">No</td>
-                    <td class="text-center">Detail Resort</td>
+                    <td class="text-center">Member</td>
+                    <td class="text-center">Nominal</td>
                     <td class="text-center">Pdl</td>
-                    <td class="text-center">Balance</td>
-                    <td class="text-center">Cashier</td>
-                    <td class="text-center">Created At</td>
+                    <td class="text-center">Branch</td>
+                    <td class="text-center">Status</td>
+                    <td class="text-center">created_at</td>
                     <td class="rounded-br rounded-tr text-center px-2">Action</td>
                 </tr>
             </thead>

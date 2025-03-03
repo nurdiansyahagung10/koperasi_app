@@ -2,7 +2,6 @@
 
 @section('dashboardmain')
     <section id="section-roles-dashboard" class="flex-1">
-        @include('dashboard.layout.success_notification')
         <h1 class="text-xl mt-2.5 font-medium">Detail Member</h1>
         <div class="flex flex-col gap-2">
             <div class="border mt-4 rounded-2xl p-5 flex gap-5">
@@ -50,6 +49,10 @@
                                 <div class="flex flex-col gap-2">
                                     <span class="text-xs text-stone-500">Phone Number</span>
                                     <span class="text-sm">{{ $members->phone_number }}</span>
+                                </div>
+                                <div class="flex flex-col gap-2">
+                                    <span class="text-xs text-stone-500">Created At</span>
+                                    <span class="text-sm">{{ $members->created_at->format('Y-m-d') }}</span>
                                 </div>
 
                             </div>

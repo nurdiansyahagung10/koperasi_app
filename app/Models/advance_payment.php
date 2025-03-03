@@ -10,8 +10,10 @@ class advance_payment extends Model
 
     protected $fillable = [
         "balance",
+        "detail_resort_id",
+        "user_id",
         "pdl_id",
-        "user_id"
+        "proof_advance_payment"
     ];
 
     public function pdl(){
@@ -19,6 +21,10 @@ class advance_payment extends Model
     }
     public function user(){
         return $this->belongsTo(User::class, "user_id");
+    }
+
+    public function detail_resort(){
+        return $this->belongsTo(DetailResort::class,"detail_resort_id");
     }
 
 }

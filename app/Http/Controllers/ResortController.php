@@ -32,7 +32,10 @@ class ResortController extends Controller
         if ($resort) {
             foreach ($resort as $value) {
                 $resortnumber = array_diff($resortnumber, array("$value->resort_number"));
-                array_push($pdl_id, $value->pdl_id);
+                if($value->pdl_id != null){
+                    array_push($pdl_id, $value->pdl_id);
+
+                }
             }
         }
 
@@ -121,7 +124,7 @@ class ResortController extends Controller
                 $resortcheckpdl->update(["pdl_id" => $resort->pdl_id]);
             }
         }
-        
+
         $validatedata["branch_id"] = $branch_id;
 
         $resort->update($validatedata);

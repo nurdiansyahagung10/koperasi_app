@@ -22,4 +22,9 @@ class DetailResort extends Model
         return $this->hasMany(Members::class, "detail_resort_id");
     }
 
+    public function advance_payment(){
+        return $this->hasMany(advance_payment::class,"detail_resort_id");
+    }
+
+
 }

@@ -94,11 +94,12 @@ class MembersController extends Controller
      */
     public function edit($id)
     {
-        $members = Members::with("detail_resorts.resorts")->find($id);
+        $members = Members::with("detail_resorts.resorts.branch_offices.head_offices")->find($id);
         $user = Auth::user()->with('role')->get()->first();
+        $head_offices = HeadOffice::all();
 
 
-        return view('dashboard.pages.members.members_edit')->with(["members" => $members, "role" => $user->role->role_name]);
+        return view('dashboard.pages.members.members_edit')->with(["members" => $members, "role" => $user->role->role_name, "head_offices" => $head_offices]);
     }
 
     /**

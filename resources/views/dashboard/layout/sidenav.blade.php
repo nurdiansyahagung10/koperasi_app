@@ -196,6 +196,13 @@
                             <i class=" fa-light fa-rectangle-history-circle-user"></i> </span>
                         <span class="text-icon whitespace-nowrap">Advance Payment</span>
                     </a>
+                    <a href="{{ route('loan_applications') }}"
+                        class="flex gap-2 py-1 @if (implode('/', array_slice(explode('/', url()->current()), 0, 4)) == url('/loan_applications')) bg-white border text-black @endif  px-2 btn-icon rounded-xl items-center ">
+                        <span class="">
+                            <i class="fa-light fa-message-exclamation"></i>
+                        </span>
+                        <span class="text-icon whitespace-nowrap">Loan Application</span>
+                    </a>
                     <button class="flex gap-2 py-1  px-2 btn-icon rounded-xl items-center ">
                         <span class="">
                             <i class=" fa-light fa-money-simple-from-bracket"></i>
