@@ -16,7 +16,7 @@ class AdvancePaymentController extends Controller
      */
     public function index()
     {
-        return view('dashboard.pages.advance_payment.advance_payment');
+        return view('dashboard.pages.advance_payment.advance_payment', ["tittle" => "Management Advance Payment"]);
     }
 
     /**

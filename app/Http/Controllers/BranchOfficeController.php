@@ -13,7 +13,7 @@ class BranchOfficeController extends Controller
      */
     public function index()
     {
-        return view("dashboard.pages.branch_offices.branch_offices");
+        return view("dashboard.pages.branch_offices.branch_offices", ["tittle" => "Management Branch Office"]);
     }
 
     /**
@@ -22,7 +22,7 @@ class BranchOfficeController extends Controller
     public function create()
     {
         $head_offices = HeadOffice::all();
-        return view("dashboard.pages.branch_offices.branch_offices_create")->with(["head_offices" => $head_offices]);
+        return view("dashboard.pages.branch_offices.branch_offices_create", ["head_offices" => $head_offices, "tittle" => "Add Branch Office"]);
     }
 
     /**
@@ -64,8 +64,9 @@ class BranchOfficeController extends Controller
      */
     public function edit(BranchOffice $branchOffice)
     {
+        $branchofficewithrelation = $branchOffice->with("head_offices")->find($branchOffice->id);
         $head_offices = HeadOffice::all();
-        return view("dashboard.pages.branch_offices.branch_offices_edit")->with(["branch_offices" => $branchOffice, "head_offices" => $head_offices]);
+        return view("dashboard.pages.branch_offices.branch_offices_edit", ["branch_offices" => $branchofficewithrelation, "head_offices" => $head_offices, "tittle" => "Edit Branch Office"]);
     }
 
     /**

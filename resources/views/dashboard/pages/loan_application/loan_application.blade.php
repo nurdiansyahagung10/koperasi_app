@@ -58,7 +58,7 @@
 
     </section>
 
-    <script type="module" src="{{ asset('js/package/table-package/main-table-package.js') }}"></script>
+    @include('dashboard.layout.bottomjs')
     <script>
         function alert(e, id) {
             e.preventDefault();

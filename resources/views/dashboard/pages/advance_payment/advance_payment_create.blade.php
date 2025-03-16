@@ -50,7 +50,7 @@
                     <div class="flex flex-col w-full">
                         <label class=" text-xs text-gray-500 whitespace-nowrap">Detailresort<span
                                 class="text-red-600">*</span></label>
-                        <select required name="detail_resort" id="detail_resort"
+                        <select required name="detail_resort_id" id="detail_resort"
                             class="w-full outline-hidden -translate-x-1 text-sm border-none shadow-none ">
                             <option value="">Select Resort First</option>
                         </select>
@@ -182,7 +182,7 @@
     `;
 
             } else {
-                const response = await fetch(`http://127.0.0.1:8000/api/v1/get_branch_offices/head_office/` +
+                const response = await fetch(`/api/v1/get_branch_offices/head_office/` +
                     head_office, api_config());
                 const data = await response.json();
 
@@ -223,7 +223,7 @@
 
             } else {
                 const response = await fetch(
-                    `http://127.0.0.1:8000/api/v1/resorts/branch_office/${branch_office}/resort`,
+                    `/api/v1/resorts_have_pdl/branch_office/${branch_office}/resort`,
                     api_config());
                 const data = await response.json();
 
@@ -264,7 +264,7 @@
     `;
             } else {
                 const response = await fetch(
-                    `http://127.0.0.1:8000/api/v1/detailresorts/resort/${resort}/detailresort`,
+                    `/api/v1/detailresorts/resort/${resort}/detailresort`,
                     api_config());
                 const data = await response.json();
 

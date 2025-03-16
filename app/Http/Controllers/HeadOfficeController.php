@@ -12,7 +12,7 @@ class HeadOfficeController extends Controller
      */
     public function index()
     {
-        return view("dashboard.pages.head_offices.head_offices");
+        return view("dashboard.pages.head_offices.head_offices", ["tittle" => "Management Head Office"]);
     }
 
     /**
@@ -20,7 +20,7 @@ class HeadOfficeController extends Controller
      */
     public function create()
     {
-        return view("dashboard.pages.head_offices.head_offices_create");
+        return view("dashboard.pages.head_offices.head_offices_create", ["tittle"=> "Add Head Office"]);
     }
 
     /**
@@ -56,7 +56,7 @@ class HeadOfficeController extends Controller
      */
     public function edit(HeadOffice $headOffice)
     {
-        return view("dashboard.pages.head_offices.head_offices_edit")->with("head_offices", $headOffice);
+        return view("dashboard.pages.head_offices.head_offices_edit", ["head_offices" => $headOffice, "tittle" => "Edit Head Office"]);
     }
 
     /**

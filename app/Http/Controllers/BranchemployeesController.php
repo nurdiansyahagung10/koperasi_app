@@ -46,7 +46,7 @@ class BranchemployeesController extends Controller
 
     public function index($role)
     {
-        return view("dashboard.pages.employees.branch.branch_employees")->with("role", $role);
+        return view("dashboard.pages.employees.branch.branch_employees", ["role" => $role, "tittle" => "Management ". $this->role_name]);
     }
 
     /**
@@ -168,7 +168,7 @@ class BranchemployeesController extends Controller
 
     /**
      * Remove the specified resource from storage.
-    */
+     */
     public function destroy($role, $id)
     {
         $branch_employee = User::findOrFail($id);

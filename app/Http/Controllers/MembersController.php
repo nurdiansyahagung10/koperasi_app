@@ -14,7 +14,7 @@ class MembersController extends Controller
      */
     public function index()
     {
-        return view("dashboard.pages.members.members");
+        return view("dashboard.pages.members.members", ["tittle" => "Management Members"]);
     }
 
     /**
@@ -25,7 +25,7 @@ class MembersController extends Controller
         $user = Auth::user()->with('role')->get()->first();
 
         $head_offices = HeadOffice::all();
-        return view("dashboard.pages.members.members_create")->with(["role" => $user->role->role_name, "head_offices" => $head_offices]);
+        return view("dashboard.pages.members.members_create", ["role" => $user->role->role_name, "head_offices" => $head_offices, "tittle" => "Add Members"]);
     }
 
     /**
@@ -86,7 +86,7 @@ class MembersController extends Controller
     public function show($id)
     {
         $members = Members::with("detail_resorts.resorts.branch_offices.head_offices")->find($id);
-        return view("dashboard.pages.members.members_show")->with("members", $members);
+        return view("dashboard.pages.members.members_show", ["members" =>  $members, "tittle" => "Detail Member"]);
     }
 
     /**
@@ -99,7 +99,7 @@ class MembersController extends Controller
         $head_offices = HeadOffice::all();
 
 
-        return view('dashboard.pages.members.members_edit')->with(["members" => $members, "role" => $user->role->role_name, "head_offices" => $head_offices]);
+        return view('dashboard.pages.members.members_edit', ["members" => $members, "role" => $user->role->role_name, "head_offices" => $head_offices, "tittle" => "Edit Member" ]);
     }
 
     /**

@@ -14,7 +14,7 @@ class DetailResortController extends Controller
     public function index($resort_id)
     {
 
-        return view("dashboard.pages.branch_offices.resort.detailresort.detailresort")->with("resort_id", $resort_id);
+        return view("dashboard.pages.branch_offices.resort.detailresort.detailresort", ["resort_id"=> $resort_id, "tittle" => "Management Detail Resort"]);
     }
 
     /**

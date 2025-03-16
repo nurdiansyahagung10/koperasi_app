@@ -33,4 +33,24 @@ class Members extends Model
     public function detail_resorts() {
         return $this->belongsTo(DetailResort::class, "detail_resort_id");
     }
+
+    public function findRelation($targetRelation)
+    {
+        foreach ($this->getRelations() as $relationName => $relationData) {
+            // Jika relasi ditemukan langsung, kembalikan datanya
+            if ($relationName === $targetRelation) {
+                return $relationData;
+            }
+
+            // Jika relasi memiliki data, lakukan pencarian di dalamnya (rekursif)
+            if (is_object($relationData)) {
+                $result = $relationData->findRelation($targetRelation);
+                if ($result) {
+                    return $result;
+                }
+            }
+        }
+
+        return null; // Relasi tidak ditemukan
+    }
 }

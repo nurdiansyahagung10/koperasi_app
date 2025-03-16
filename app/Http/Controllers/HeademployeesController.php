@@ -47,7 +47,7 @@ class HeademployeesController extends Controller
 
     public function index($role)
     {
-        return view("dashboard.pages.employees.head.head_employees")->with("role", $role);
+        return view("dashboard.pages.employees.head.head_employees", ["role" => $role, "tittle" => "Management " . $this->role_name]);
     }
 
     /**
@@ -66,10 +66,10 @@ class HeademployeesController extends Controller
             })->get();
 
         } else {
-            $head_offices = HeadOffice::all();  
+            $head_offices = HeadOffice::all();
         }
 
-        return view('dashboard.pages.employees.head.head_employees_create')->with(['head_offices' => $head_offices, "role" => $role, "role_name" => $this->role_name]);
+        return view('dashboard.pages.employees.head.head_employees_create', ['head_offices' => $head_offices, "role" => $role, "role_name" => $this->role_name, "tittle" => "Create " . $this->role_name]);
     }
 
     /**
@@ -121,7 +121,7 @@ class HeademployeesController extends Controller
         $head_employee = User::with("head_office")->find($id);
         $head_offices = HeadOffice::all();
 
-        return view("dashboard.pages.employees.head.head_employees_edit")->with(["role" => $role, "head_employee" => $head_employee, "head_offices" => $head_offices]);
+        return view("dashboard.pages.employees.head.head_employees_edit", ["role" => $role, "head_employee" => $head_employee, "head_offices" => $head_offices, "role_name" => $this->role_name, "tittle" => "Create " . $this->role_name]);
     }
 
     /**

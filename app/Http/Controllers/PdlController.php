@@ -13,7 +13,7 @@ class PdlController extends Controller
      */
     public function index()
     {
-        return view("dashboard.pages.employees.branch.pdl.pdl");
+        return view("dashboard.pages.employees.branch.pdl.pdl", ["tittle" => "Management Pdl"]);
     }
 
     /**

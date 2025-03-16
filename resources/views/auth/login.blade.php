@@ -5,7 +5,7 @@
 
         <div class="grid lg:grid-cols-2">
             <section class="w-full h-screen flex flex-col p-10 relative">
-                @include('dashboard.layout.errors_notification')
+                @include('components.errors_notification')
 
                 <span class="font-medium text-xl">Koperasi Kita</span>
 

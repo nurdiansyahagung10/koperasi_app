@@ -95,6 +95,23 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany(advance_payment::class, "user_id");
     }
 
+    public function findRelation($targetRelation)
+    {
+        foreach ($this->getRelations() as $relationName => $relationData) {
+            // Jika relasi ditemukan langsung, kembalikan datanya
+            if ($relationName === $targetRelation) {
+                return $relationData;
+            }
 
+            // Jika relasi memiliki data, lakukan pencarian di dalamnya (rekursif)
+            if (is_object($relationData)) {
+                $result = $relationData->findRelation($targetRelation);
+                if ($result) {
+                    return $result;
+                }
+            }
+        }
 
+        return null; // Relasi tidak ditemukan
+    }
 }

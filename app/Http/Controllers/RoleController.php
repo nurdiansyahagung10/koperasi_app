@@ -10,7 +10,7 @@ class RoleController extends Controller
 {
     public function index()
     {
-        return view("dashboard.pages.roles", );
+        return view("dashboard.pages.roles", ["tittle" => "Manajemen Roles"]);
 
     }
 
@@ -64,7 +64,7 @@ class RoleController extends Controller
 
     public function permissions(Role $role)
     {
-        return view("dashboard.pages.permissions");
+        return view("dashboard.pages.permissions", ["tittle"=> "Management Permissions"]);
     }
 
     public function set_permissions(Request $request, Role $role)
