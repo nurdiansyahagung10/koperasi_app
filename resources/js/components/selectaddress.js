@@ -1,4 +1,3 @@
-import { fakedLogs } from "laravel-mix/src/Log";
 import { AxiosGet } from "../package/table-package/fetch";
 import { head_office } from "./selectoffice";
 

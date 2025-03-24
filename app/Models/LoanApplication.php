@@ -3,42 +3,42 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\DetailResort;
 
-class Members extends Model
+class LoanApplication extends Model
 {
-    protected $table = "members";
+    protected $table = "loan_applications";
+
     protected $fillable = [
-        'member_name',
-        'birthday_date',
-        'ktp',
-        'kk',
         'status',
-        'province',
-        'city_or_regency',
-        'district',
-        'village',
-        'rt_and_rw',
-        'street_or_building_name',
-        'phone_number',
-        'member_image',
-        'member_ktp_image',
-        'member_hold_ktp_image',
-        'business',
-        'business_image',
-        'business_location',
-        'user_id',
+        'binding_letter',
+        'binding_letter_image',
+        'nominal_loan_application',
+        'nominal_admin',
+        'nominal_provisi',
+        'nominal_deposite',
+        'nominal_pure_dropping',
+        'action_by',
+        'action_date',
+        'member_id',
         'detail_resort_id',
+        'pdl_id',
     ];
 
-    public function detail_resorts() {
-        return $this->belongsTo(DetailResort::class, "detail_resort_id");
+    public function user_action_by(){
+        return $this->belongsTo(User::class,'action_by');
     }
 
-    public function loan_applications(){
-        return $this->hasMany(LoanApplication::class,"member_id");
+    public function member(){
+        return $this->belongsTo(Members::class,'member_id');
     }
 
+    public function pdl(){
+        return $this->belongsTo(Pdl::class,'pdl_id');
+    }
+
+    public function detail_resort(){
+        return $this->belongsTo(DetailResort::class,'detail_resort_id');
+    }
     public function findRelation($targetRelation)
     {
         foreach ($this->getRelations() as $relationName => $relationData) {

@@ -26,7 +26,7 @@ class AdvancePaymentController extends Controller
     {
         $head_offices = HeadOffice::all();
 
-        return view('dashboard.pages.advance_payment.advance_payment_create')->with(['head_offices' => $head_offices]);
+        return view('dashboard.pages.advance_payment.advance_payment_create', ['head_offices' => $head_offices, "tittle" => "Create Advance Payment"]);
     }
 
     /**
@@ -49,7 +49,6 @@ class AdvancePaymentController extends Controller
             $validatedata['proof_advance_payment'] = $request->file('proof_advance_payment')->store('img/advance_payment', 'public');
         }
 
-
         advance_payment::create($validatedata);
 
         return redirect()->route("advance_payments")->with("success", "Success Add Advance Payment Data");
@@ -70,7 +69,7 @@ class AdvancePaymentController extends Controller
     {
         $head_offices = HeadOffice::all();
         $advance_payment_with_relations = advance_payment::with("pdl.branch_office.head_offices")->find($advance_payment->id);
-        return view('dashboard.pages.advance_payment.advance_payment_edit')->with(['head_offices' => $head_offices, "advance_payment" => $advance_payment_with_relations]);
+        return view('dashboard.pages.advance_payment.advance_payment_edit', ['head_offices' => $head_offices, "advance_payment" => $advance_payment_with_relations, "tittle" => "Edit Advance Payment"]);
     }
 
     /**

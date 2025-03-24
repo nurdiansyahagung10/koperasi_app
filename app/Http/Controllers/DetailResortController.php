@@ -14,7 +14,7 @@ class DetailResortController extends Controller
     public function index($resort_id)
     {
 
-        return view("dashboard.pages.branch_offices.resort.detailresort.detailresort", ["resort_id"=> $resort_id, "tittle" => "Management Detail Resort"]);
+        return view("dashboard.pages.branch_offices.resort.detailresort.detailresort", ["resort_id" => $resort_id, "tittle" => "Management Detail Resort"]);
     }
 
     /**
@@ -32,7 +32,7 @@ class DetailResortController extends Controller
 
 
 
-        return view("dashboard.pages.branch_offices.resort.detailresort.detailresort_create")->with(["day_code" => $day_code, "resort_id" => $resort_id]);
+        return view("dashboard.pages.branch_offices.resort.detailresort.detailresort_create", ["day_code" => $day_code, "resort_id" => $resort_id, "tittle" => "Create Detail Resort"]);
     }
 
     /**
@@ -73,7 +73,7 @@ class DetailResortController extends Controller
 
         $detailresort = DetailResort::find($id);
 
-        return view("dashboard.pages.branch_offices.resort.detailresort.detailresort_edit")->with(["day_code" => $day_code, "resort_id" => $resort_id, "detailresort" => $detailresort]);
+        return view("dashboard.pages.branch_offices.resort.detailresort.detailresort_edit", ["day_code" => $day_code, "resort_id" => $resort_id, "detailresort" => $detailresort, "tittle" => "Edit Detail Resort"]);
     }
 
     /**

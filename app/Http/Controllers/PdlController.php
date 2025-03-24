@@ -23,7 +23,7 @@ class PdlController extends Controller
     {
         $head_offices = HeadOffice::all();
 
-        return view('dashboard.pages.employees.branch.pdl.pdl_create')->with(['head_offices' => $head_offices]);
+        return view('dashboard.pages.employees.branch.pdl.pdl_create', ['head_offices' => $head_offices, "tittle" => "Create PDL"]);
     }
 
     /**
@@ -64,8 +64,9 @@ class PdlController extends Controller
     public function edit(Pdl $pdl)
     {
         $head_offices = HeadOffice::all();
+        $new_pdl = Pdl::with("branch_office", "head_office")->find($pdl->id);
 
-        return view("dashboard.pages.employees.branch.pdl.pdl_edit")->with(["pdl" => $pdl, "head_offices" => $head_offices]);
+        return view("dashboard.pages.employees.branch.pdl.pdl_edit",["pdl" => $new_pdl, "head_offices" => $head_offices, "tittle" => "Edit PDL"]);
     }
 
     /**

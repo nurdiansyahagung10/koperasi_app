@@ -7,13 +7,25 @@ const resort = document.getElementById("resort");
 const resortvalue = document.getElementById("resortvalue")?.value;
 const detail_resort = document.getElementById("detail_resort");
 const detail_resortvalue = document.getElementById("detail_resortvalue")?.value;
+const detail_resort_filtered_day =
+    document.getElementById("detail_resort_filtered_day") &&
+    document.getElementById("detail_resort_filtered_day");
+
+function daycodenow() {
+    const daycode = { 1: "A", 2: "B", 3: "C", 4: "D", 5: "E", 6: "F" };
+    const date = new Date();
+    const day = date.getDay();
+    return daycode[`${day}`];
+}
+
+daycodenow();
 
 async function get_branch_offices(head_office_id, SelectedBranchOffice = null) {
     branch_office.innerHTML = `
             <option value="">Loading...</option>
         `;
 
-    if (head_office_id == null) {
+    if (head_office_id == null || head_office_id == "") {
         branch_office.innerHTML = `
             <option value="">Select Head Office First</option>
         `;
@@ -62,7 +74,7 @@ async function get_resort(branch_office_id, SelectedResort = null) {
             <option value="">Loading...</option>
         `;
 
-    if (branch_office_id == null) {
+    if (branch_office_id == null || branch_office_id == "") {
         resort.innerHTML = `
             <option value="">Select Branch Office First</option>
         `;
@@ -81,6 +93,7 @@ async function get_resort(branch_office_id, SelectedResort = null) {
                 if (selected) {
                     resort.innerHTML = `
                     <option value="${selected.id}" >${selected.resort_number}</option>`;
+
                     detail_resort &&
                         get_detail_resort(selected.id, detail_resortvalue);
                 } else {
@@ -111,7 +124,9 @@ async function get_detail_resort(resort_id, SelectedDetailResort = null) {
             <option value="">Loading...</option>
         `;
 
-    if (resort_id == null) {
+        console.log(detail_resort_filtered_day)
+
+    if (resort_id == null || resort_id == "") {
         detail_resort.innerHTML = `
             <option value="">Select Resort First</option>
         `;
@@ -126,41 +141,88 @@ async function get_detail_resort(resort_id, SelectedDetailResort = null) {
                     (item) => item.day_code === SelectedDetailResort
                 );
 
-
                 if (selected) {
                     detail_resort.innerHTML = `
                     <option value="${selected.id}" >${selected.day_code}</option>`;
                 } else {
-                    detail_resort.innerHTML = `<option value="">Select Detail Resort</option>`;
+                    const datafiltered = data.body.filter(
+                        (item) => item.day_code == SelectedDetailResort
+                    );
+                    if (datafiltered.length != 0) {
+                        if (detail_resort_filtered_day != null) {
+                            const datafilteredwithdayfiltered =
+                                datafiltered.filter(
+                                    (item) => item.day_code == daycodenow()
+                                );
+                            if (datafilteredwithdayfiltered != 0) {
+                                detail_resort.innerHTML = `<option value="">Select Detail Resort</option>`;
+                            } else {
+                                detail_resort.innerHTML = `<option value="">Not Have Detail Resort In This Day</option>`;
+                            }
+                        } else {
+                            detail_resort.innerHTML = `<option value="">Select Detail Resort</option>`;
+                        }
+                    } else {
+                        detail_resort.innerHTML = `<option value="">Not Have Detail Resort</option>`;
+                    }
                 }
             } else {
-                detail_resort.innerHTML = `<option value="">Select Detail Resort</option>`;
+                if (detail_resort_filtered_day != null) {
+                    const datawithdayfiltered = data.body.filter(
+                        (item) => item.day_code == daycodenow()
+                    );
+                    if (datawithdayfiltered != 0) {
+                        detail_resort.innerHTML = `<option value="">Select Detail Resort</option>`;
+                    } else {
+                        detail_resort.innerHTML = `<option value="">Not Have Detail Resort In This Day</option>`;
+                    }
+                } else {
+                    detail_resort.innerHTML = `<option value="">Select Detail Resort</option>`;
+                }
             }
 
-            data.body.forEach((item) => {
-                if (item.day_code != SelectedDetailResort) {
-                    detail_resort.innerHTML += `
-                    <option value="${item.id}" >${item.day_code}</option>`;
-                }
-            });
+            if (detail_resort_filtered_day != null) {
+                const datawithdayfiltered = data.body.filter(
+                    (item) => item.day_code == daycodenow()
+                );
+
+                datawithdayfiltered.forEach((item) => {
+                    if (item.day_code != SelectedDetailResort) {
+                        detail_resort.innerHTML += `
+                        <option value="${item.id}" >${item.day_code}</option>`;
+                    }
+                });
+            } else {
+                data.body.forEach((item) => {
+                    if (item.day_code != SelectedDetailResort) {
+                        detail_resort.innerHTML += `
+                        <option value="${item.id}" >${item.day_code}</option>`;
+                    }
+                });
+            }
         } else {
-            detail_resort.innerHTML = `
-                <option value="">Not Have Detail Resort</option>
-            `;
-            detail_resort && get_detail_resort(null);
+            detail_resort.innerHTML = `<option value="">Not Have Detail Resort</option>`;
         }
     }
 }
 
 head_office?.addEventListener("change", (event) => {
-    branch_office && get_branch_offices(event.target.value, branch_officevalue && branch_officevalue);
+    branch_office &&
+        get_branch_offices(
+            event.target.value,
+            branch_officevalue && branch_officevalue
+        );
 });
 
 branch_office?.addEventListener("change", (event) => {
     resort && get_resort(event.target.value, resortvalue && resortvalue);
 });
 resort?.addEventListener("change", (event) => {
-    detail_resort && get_detail_resort(event.target.value, detail_resortvalue && detail_resortvalue);
+    detail_resort &&
+        get_detail_resort(
+            event.target.value,
+            detail_resortvalue && detail_resortvalue
+        );
 });
 
 branch_office &&
@@ -169,4 +231,4 @@ branch_office &&
         branch_officevalue && branch_officevalue
     );
 
-export { head_office };
+export { head_office, detail_resort };

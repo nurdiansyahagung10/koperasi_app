@@ -21,7 +21,7 @@ return new class extends Migration {
             $table->string("phone_number", 13);
             $table->integer('service_charge');
             $table->integer('admin_charge');
-            $table->integer('comision_charge');
+            $table->integer('provisi_charge');
             $table->integer('deposite');
             $table->integer('maxresort');
             $table->unsignedBigInteger('head_id')->index();

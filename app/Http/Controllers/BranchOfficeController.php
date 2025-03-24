@@ -42,7 +42,7 @@ class BranchOfficeController extends Controller
             'maxresort' => "required|numeric",
             'service_charge' => "required|numeric",
             'admin_charge' => "required|numeric",
-            'comision_charge' => "required|numeric",
+            'provisi_charge' => "required|numeric",
             'deposite' => "required|numeric",
         ]);
 
@@ -75,7 +75,7 @@ class BranchOfficeController extends Controller
     public function update(Request $request, BranchOffice $branchOffice)
     {
 
-        if ($branchOffice->province == $request->province) {
+        if ($branchOffice->branch_name == $request->branch_name) {
             $validatedata = $request->validate([
                 'branch_name' => "required|string",
                 'city_or_regency' => "required|string",
@@ -88,7 +88,7 @@ class BranchOfficeController extends Controller
                 'maxresort' => "required|numeric",
                 'service_charge' => "required|numeric",
                 'admin_charge' => "required|numeric",
-                'comision_charge' => "required|numeric",
+                'provisi_charge' => "required|numeric",
                 'deposite' => "required|numeric",
             ]);
 
@@ -105,7 +105,7 @@ class BranchOfficeController extends Controller
                 'maxresort' => "required|numeric",
                 'service_charge' => "required|numeric",
                 'admin_charge' => "required|numeric",
-                'comision_charge' => "required|numeric",
+                'provisi_charge' => "required|numeric",
                 'deposite' => "required|numeric",
             ]);
 

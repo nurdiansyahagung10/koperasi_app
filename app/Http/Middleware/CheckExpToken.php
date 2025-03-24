@@ -27,7 +27,7 @@ class CheckExpToken
 
 
         try {
-            $decoded  = JWT::decode($token, new Key(env("JWT_SECRET"), "HS256"));
+            $decoded = JWT::decode($token, new Key(env("JWT_SECRET"), "HS256"));
         } catch (ExpiredException $e) {
             return redirect('logout');
         } catch (\Exception $e) {

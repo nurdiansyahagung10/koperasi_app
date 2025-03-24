@@ -17,7 +17,7 @@
                     <input type="file" name="{{ $item['name'] }}" id="{{ $item['id'] }}"
                         class="opacity-0 absolute -z-10" />
                     <div
-                        class="max-w-52 {{ isset($item['value']) ? 'hidden' : ''}}  h-40  flex pt-[1rem] text-center  items-center justify-center first-show-previmage">
+                        class="max-w-52 {{ isset($item['value']) ? 'hidden' : '' }}  h-40  flex pt-[1rem] text-center  items-center justify-center first-show-previmage">
                         <div class="items-center flex flex-col">
                             <span class="text-3xl mb-3"><i class="fa-light fa-file-arrow-up"></i></span>
                             <span class="text-sm">Select Or Drop Image</span>
@@ -25,7 +25,12 @@
                         </div>
                     </div>
                     <div class="max-w-52 rounded-xl  overflow-hidden mx-4 my-2">
-                        <img id="{{ $item['name'] }}" src="{{ asset('storage/'. $item['value']) }}" class="w-full h-full object-cover " alt="">
+                        @if (isset($item['value']))
+                            <img id="{{ $item['name'] }}" src="{{ asset('storage/' . $item['value']) }}"
+                                class="w-full h-full object-cover " alt="">
+                        @else
+                            <img id="{{ $item['name'] }}" class="w-full h-full object-cover " alt="">
+                        @endif
 
                     </div>
 
@@ -81,4 +86,4 @@
         @endif
     @endforeach
 
-    @vite('resources/js/components/input.js')
+ 

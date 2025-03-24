@@ -40,7 +40,7 @@ const Templates = {
                 item.phone_number,
                 item.service_charge,
                 item.admin_charge,
-                item.comision_charge,
+                item.provisi_charge,
                 item.deposite,
                 item.created_at.slice(0, 10),
             ],
@@ -76,8 +76,22 @@ const Templates = {
             ],
             [iteration, item]
         ),
-    members: (item, iteration) =>
-        RowElement(
+    members: (item, iteration) => {
+        let status = null;
+        switch (item.status) {
+            case "1":
+                status = `Active`;
+                break;
+            case "2":
+                status = `Resting`;
+                break;
+            case "3":
+                status = `Out`;
+                break;
+            default:
+                break;
+        }
+        return RowElement(
             iteration,
             [
                 item.member_name,
@@ -87,11 +101,12 @@ const Templates = {
                     ? item.detail_resorts.resorts.pdl.pdl_name
                     : "Undefined Pdl In This Resort",
                 item.detail_resorts.resorts.branch_offices.branch_name,
-                item.status,
+                status,
                 item.created_at.slice(0, 10),
             ],
             [iteration, item, `/${Path}/${item.id}`, "Details"]
-        ),
+        );
+    },
     head_leaders: (item, iteration) =>
         RowElement(
             iteration,
@@ -203,7 +218,7 @@ const Templates = {
             ],
             [iteration, item]
         ),
-    advance_payments: (iteration, item) => {
+    advance_payments: (item, iteration) =>
         RowElement(
             iteration,
             [
@@ -214,6 +229,66 @@ const Templates = {
                 item.created_at.slice(0, 10),
             ],
             [iteration, item, `/${Path}/${item.id}`, `Details`]
+        ),
+    loan_applications: (item, iteration) => {
+        let status = null;
+        switch (item.status) {
+            case "1":
+                status = `Waiting Action`;
+                break;
+            case "2":
+                status = `Approved`;
+                break;
+            case "3":
+                status = `Rejected`;
+                break;
+            default:
+                break;
+        }
+        return RowElement(
+            iteration,
+            [
+                item.member.member_name,
+                item.nominal_loan_application,
+                item.pdl.pdl_name,
+                item.detail_resort.resorts.branch_offices.branch_name,
+                item.detail_resort.day_code,
+                status,
+                item.user_action_by ? item.user_action_by.user_name : "Not Yet",
+                item.created_at.slice(0, 10),
+            ],
+            [iteration, item, `/${Path}/${item.id}`, `Details`, true]
+        );
+    },
+    droppings: (item, iteration) => {
+        let status = null;
+        switch (item.status) {
+            case "1":
+                status = `Waiting For Drop`;
+                break;
+            case "2":
+                status = `Finished`;
+                break;
+            case "3":
+                status = `Cancelled`;
+                break;
+            default:
+            break;
+        }
+        return RowElement(
+            iteration,
+            [
+                item.loan_application.member.member_name,
+                item.loan_application.nominal_loan_application,
+                item.loan_application.nominal_pure_dropping,
+                item.loan_application.pdl.pdl_name,
+                item.loan_application.detail_resort.resorts.branch_offices
+                    .branch_name,
+                item.loan_application.detail_resort.day_code,
+                status,
+                item.created_at.slice(0, 10),
+            ],
+            [iteration, item, `/${Path}/${item.id}`, `Details`, true]
         );
     },
 };

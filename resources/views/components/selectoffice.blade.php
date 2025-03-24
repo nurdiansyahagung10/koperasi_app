@@ -1,6 +1,7 @@
 @foreach (['head_office' => 'Head Office', 'branch_office' => 'Branch Office', 'resort' => 'Resort', 'detail_resort' => 'Detail Resort'] as $key => $label)
     @if ($selectofficelimit == $key)
         @if ($key == 'head_office')
+
             <x-select :label="isset($selectofficecustom[0]['head_office']['label'])
                 ? $selectofficecustom[0]['head_office']['label']
                 : $label" :id="isset($selectofficecustom[0]['head_office']['id'])
@@ -8,6 +9,7 @@
                 : $key" :name="isset($selectofficecustom[0]['head_office']['name'])
                 ? $selectofficecustom[0]['head_office']['name']
                 : $key">
+
                 @if (isset($selectofficevalue))
                     @if ($selectofficevalue->findRelation('head_offices') ?? $selectofficevalue->findRelation('head_office'))
                         <option
@@ -37,7 +39,14 @@
                 @endif
             </x-select>
         @else
-            <x-select :label="isset($selectofficecustom[0][$key]['label']) ? $selectofficecustom[0][$key]['label'] : $label" :id="isset($selectofficecustom[0][$key]['id']) ? $selectofficecustom[0][$key]['id'] : $key" :name="isset($selectofficecustom[0][$key]['name']) ? $selectofficecustom[0][$key]['name'] : $key" :placeholder="isset($selectofficevalue) ? 'Select ' . $label : ''" />
+            <x-select :label="isset($selectofficecustom[0][$key]['label']) ? $selectofficecustom[0][$key]['label'] : $label" :id="isset($selectofficecustom[0][$key]['id']) ? $selectofficecustom[0][$key]['id'] : $key" :name="isset($selectofficecustom[0][$key]['name']) ? $selectofficecustom[0][$key]['name'] : $key" :placeholder="isset($selectofficevalue) ? '' : 'Select ' . $label" />
+            @if (
+                $key == 'detail_resort' &&
+                    isset($selectofficecustom[0]['detail_resort']['detail_resort_filtered_day']) &&
+                    $selectofficecustom[0]['detail_resort']['detail_resort_filtered_day'] == true)
+                <input type="hidden" id="detail_resort_filtered_day">
+            @endif
+
             @if (isset($selectofficevalue))
                 @if ($selectofficevalue->findRelation($key . 's') ?? $selectofficevalue->findRelation($key))
                     @switch($key)
@@ -72,6 +81,7 @@
             : $key" :name="isset($selectofficecustom[0]['head_office']['name'])
             ? $selectofficecustom[0]['head_office']['name']
             : $key">
+
             @if (isset($selectofficevalue))
                 @if ($selectofficevalue->findRelation('head_offices') ?? $selectofficevalue->findRelation('head_office'))
                     <option
@@ -103,6 +113,12 @@
         </x-select>
     @else
         <x-select :label="isset($selectofficecustom[0][$key]['label']) ? $selectofficecustom[0][$key]['label'] : $label" :id="isset($selectofficecustom[0][$key]['id']) ? $selectofficecustom[0][$key]['id'] : $key" :name="isset($selectofficecustom[0][$key]['name']) ? $selectofficecustom[0][$key]['name'] : $key" :placeholder="isset($selectofficevalue) ? 'Select ' . $label : ''" />
+        @if (
+            $key == 'detail_resort' &&
+                isset($selectofficecustom[0]['detail_resort'][0]['detail_resort_filtered_day']) &&
+                $selectofficecustom[0]['detail_resort'][0]['detail_resort_filtered_day'] == true)
+            <input type="hidden" id="detail_resort_filtered_day">
+        @endif
         @if (isset($selectofficevalue))
             @if ($selectofficevalue->findRelation($key . 's') ?? $selectofficevalue->findRelation($key))
                 @switch($key)

@@ -43,7 +43,7 @@ class ResortController extends Controller
 
 
 
-        return view("dashboard.pages.branch_offices.resort.resort_create")->with(["pdl" => $pdl, "resortnumber" => $resortnumber, "branch_id" => $branch_id]);
+        return view("dashboard.pages.branch_offices.resort.resort_create", ["pdl" => $pdl, "resortnumber" => $resortnumber, "branch_id" => $branch_id, "tittle" => "create resort"]);
     }
 
     /**
@@ -94,7 +94,7 @@ class ResortController extends Controller
 
         $pdl = Pdl::where("branch_id", $branch_id)->get();
 
-        return view("dashboard.pages.branch_offices.resort.resort_edit")->with(["pdl" => $pdl, "resortnumber" => $resortnumber, "resort" => $resort, "branch_id" => $branch_id]);
+        return view("dashboard.pages.branch_offices.resort.resort_edit", ["pdl" => $pdl, "resortnumber" => $resortnumber, "resort" => $resort, "branch_id" => $branch_id, "tittle" => "Edit Resort"]);
     }
 
     /**

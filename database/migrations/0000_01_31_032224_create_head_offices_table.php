@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('head_offices', function (Blueprint $table) {
             $table->id();
-            $table->string("province")->unique();
+            $table->string("province");
             $table->string("city_or_regency");
             $table->string("district");
             $table->string("village");

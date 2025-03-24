@@ -63,9 +63,9 @@
                 'endinputattr' => '%',
             ],
             [
-                'label' => 'Commision Charge',
-                'name' => 'comision_charge',
-                'id' => 'comision_charge',
+                'label' => 'Provisi Charge',
+                'name' => 'provisi_charge',
+                'id' => 'provisi_charge',
                 'type' => 'number',
                 'endinputattr' => '%',
             ],

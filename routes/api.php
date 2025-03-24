@@ -3,6 +3,7 @@
 use App\Http\Controllers\BranchemployeesController;
 use App\Http\Controllers\DetailResortController;
 use App\Http\Controllers\HeademployeesController;
+use App\Http\Controllers\LoanApplicationController;
 use App\Http\Controllers\MembersController;
 use App\Http\Controllers\PdlController;
 use Illuminate\Http\Request;
@@ -39,6 +40,8 @@ Route::group([
     Route::get("v1/resorts_have_pdl/branch_office/{branch_id}/resort", [ApiController::class, "resorts_have_pdl"])->name("apiresorts_have_pdl");
     Route::get("v1/detailresorts/resort/{resort_id}/detailresort", [ApiController::class, "detailresorts"])->name("apidetailresort");
     Route::get("v1/pdls/branch_employee/pdl", [ApiController::class, "pdls"]);
+    Route::get("v1/loan_applications", [ApiController::class, "loan_applications"]);
+    Route::get("v1/droppings", [ApiController::class, "droppings"]);
     Route::get("v1/pdls/branch_employee/branch/{branch_id}", [ApiController::class, "get_pdls_from_branch"]);
     Route::resource("v1/head_office", HeadOfficeController::class)->only("destroy");
     Route::resource("v1/branch_office", BranchOfficeController::class)->only("destroy");

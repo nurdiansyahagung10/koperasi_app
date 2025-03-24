@@ -20,7 +20,7 @@ class HeadOfficeController extends Controller
      */
     public function create()
     {
-        return view("dashboard.pages.head_offices.head_offices_create", ["tittle"=> "Add Head Office"]);
+        return view("dashboard.pages.head_offices.head_offices_create", ["tittle" => "Add Head Office"]);
     }
 
     /**
@@ -65,28 +65,18 @@ class HeadOfficeController extends Controller
     public function update(Request $request, HeadOffice $headOffice)
     {
 
-        if ($headOffice->province == $request->province) {
-            $validatedata = $request->validate([
-                'province' => "required|string",
-                'city_or_regency' => "required|string",
-                'district' => "required|string",
-                'village' => "required|string",
-                'rt_and_rw' => "required|numeric",
-                'street_or_building_name' => "required",
-                'phone_number' => "required|numeric",
-            ]);
+        $validatedata = $request->validate([
+            'province' => "required|string",
+            'city_or_regency' => "required|string",
+            'district' => "required|string",
+            'village' => "required|string",
+            'rt_and_rw' => "required|numeric",
+            'street_or_building_name' => "required",
+            'phone_number' => "required|numeric",
+        ]);
 
-        } else {
-            $validatedata = $request->validate([
-                'province' => "required|string|unique:head_offices,province",
-                'city_or_regency' => "required|string",
-                'district' => "required|string",
-                'village' => "required|string",
-                'rt_and_rw' => "required|numeric",
-                'street_or_building_name' => "required",
-                'phone_number' => "required|numeric",
-            ]);
-
+        if ($headOffice->province != $request->province && HeadOffice::where('province',$request->province)->get()->first()) {
+            HeadOffice::where("province", $request->province)->update(['province' => $headOffice->province]);
         }
 
         $headOffice->update($validatedata);

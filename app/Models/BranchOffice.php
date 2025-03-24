@@ -21,7 +21,7 @@ class BranchOffice extends Model
         'maxresort',
         'service_charge',
         'admin_charge',
-        'comision_charge',
+        'provisi_charge',
         'deposite',
         'head_id'
     ];

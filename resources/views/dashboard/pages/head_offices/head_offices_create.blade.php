@@ -4,7 +4,7 @@
 @endsection
 
 @section('Content')
-    <x-form Action="head_offices.store" :Input="[
+    <x-form action="head_offices.store" :input="[
         'selectaddress' => ['selectaddresslimit' => 'village'],
 
         'inputgroup' => [

@@ -1,16 +1,16 @@
 @foreach (['province' => 'Province', 'city_or_regency' => 'City Or Regency', 'district' => 'District', 'village' => 'Village'] as $key => $label)
 
-    @if ($selectaddressfromheadoffice && $key == 'province')
+    @if ($selectaddressfromheadoffice && $selectaddressfromheadoffice == true && $key == 'province')
     @else
         @if ($selectaddresslimit == $key)
-            <x-select :label="$label" :id="$key" :name="$key" :placeholder="isset($selectaddressvalue) ? 'Select ' . $label : ''" />
+            <x-select :label="$label" :id="$key" :name="$key" :placeholder="isset($selectaddressvalue) ? '' : 'Select ' . $label" />
             @if (isset($selectaddressvalue))
                 <input type="hidden" id="{{ $key }}value" value="{{ $selectaddressvalue->$key }}">
             @endif
             @break
 
         @else
-            <x-select :label="$label" :id="$key" :name="$key" :placeholder="isset($selectaddressvalue) ? 'Select ' . $label : ''" />
+            <x-select :label="$label" :id="$key" :name="$key" :placeholder="isset($selectaddressvalue) ? '' : 'Select ' . $label" />
             @if (isset($selectaddressvalue))
                 <input type="hidden" id="{{ $key }}value" value="{{ $selectaddressvalue->$key }}">
             @endif

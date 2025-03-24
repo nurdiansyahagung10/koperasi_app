@@ -10,15 +10,19 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('loan_aplications', function (Blueprint $table) {
+        Schema::create('loan_applications', function (Blueprint $table) {
             $table->id();
-            $table->date('aprove_date')->nullable();
             $table->string('binding_letter');
+            $table->date('action_date')->nullable();
             $table->string('binding_letter_image');
-            $table->string('status')->default("New Application");
+            $table->enum('status', [1,2,3])->default(1);
             $table->integer('nominal_loan_application');
-            $table->unsignedBigInteger('aprove_by')->index()->nullable();
-            $table->foreign('aprove_by')->references('id')->on('users')->cascadeOnDelete();
+            $table->integer('nominal_admin');
+            $table->integer('nominal_provisi');
+            $table->integer('nominal_deposite');
+            $table->integer('nominal_pure_dropping');
+            $table->unsignedBigInteger('action_by')->index()->nullable();
+            $table->foreign('action_by')->references('id')->on('users')->cascadeOnDelete();
             $table->unsignedBigInteger('member_id')->index();
             $table->foreign('member_id')->references('id')->on('members')->cascadeOnDelete();
             $table->unsignedBigInteger('detail_resort_id')->index();
@@ -34,6 +38,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('loan_aplications');
+        Schema::dropIfExists('loan_applications');
     }
 };

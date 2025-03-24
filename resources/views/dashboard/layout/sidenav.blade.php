@@ -201,12 +201,13 @@
                         </span>
                         <span class="text-icon whitespace-nowrap">Loan Application</span>
                     </a>
-                    <button class="flex gap-2 py-1  px-2 btn-icon rounded-xl items-center ">
+                    <a href="{{ route('droppings') }}"
+                        class="flex gap-2 py-1 @if (implode('/', array_slice(explode('/', url()->current()), 0, 4)) == url('/droppings')) bg-white border text-black @endif  px-2 btn-icon rounded-xl items-center ">
                         <span class="">
                             <i class=" fa-light fa-money-simple-from-bracket"></i>
                         </span>
                         <span class="text-icon whitespace-nowrap">Dropping</span>
-                    </button>
+                    </a>
                     <button class="flex gap-2 py-1  px-2 btn-icon rounded-xl items-center ">
                         <span class="">
                             <i class=" fa-light fa-credit-card-front"></i> </span>
@@ -240,4 +241,3 @@
 
     </nav>
 </div>
-

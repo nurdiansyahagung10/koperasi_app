@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\advance_payment;
+use App\Models\Dropping;
+use App\Models\LoanApplication;
 use GrahamCampbell\ResultType\Success;
 use Illuminate\Http\Request;
 use App\Models\Role;
@@ -135,7 +137,7 @@ class ApiController extends Controller
 
     public function pdls(Request $request)
     {
-        $pdl = Pdl::with(["head_office",  "branch_office", "resort"])->get();
+        $pdl = Pdl::with(["head_office", "branch_office", "resort"])->get();
 
         return response()->json(['body' => $pdl, 'message' => 'success'], 200);
     }
@@ -152,6 +154,18 @@ class ApiController extends Controller
         $advance_payment = advance_payment::with(["user", "pdl", "detail_resort"])->get();
 
         return response()->json(['body' => $advance_payment, 'message' => 'success'], 200);
+    }
+    public function loan_applications(Request $request)
+    {
+        $loan_applications = LoanApplication::with(["user_action_by", "pdl", "detail_resort.resorts.branch_offices", "member"])->get();
+
+        return response()->json(['body' => $loan_applications, 'message' => 'success'], 200);
+    }
+    public function droppings(Request $request)
+    {
+        $droppings = Dropping::with(["loan_application.user_action_by", "loan_application.pdl", "loan_application.detail_resort.resorts.branch_offices", "loan_application.member"])->get();
+
+        return response()->json(['body' => $droppings, 'message' => 'success'], 200);
     }
 
     protected function checkroleidhead_office($role)

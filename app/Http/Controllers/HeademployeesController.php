@@ -121,7 +121,7 @@ class HeademployeesController extends Controller
         $head_employee = User::with("head_office")->find($id);
         $head_offices = HeadOffice::all();
 
-        return view("dashboard.pages.employees.head.head_employees_edit", ["role" => $role, "head_employee" => $head_employee, "head_offices" => $head_offices, "role_name" => $this->role_name, "tittle" => "Create " . $this->role_name]);
+        return view("dashboard.pages.employees.head.head_employees_edit", ["role" => $role, "head_employee" => $head_employee, "head_offices" => $head_offices, "role_name" => $this->role_name, "tittle" => "Edit " . $this->role_name]);
     }
 
     /**
@@ -131,18 +131,18 @@ class HeademployeesController extends Controller
     {
         $head_employee = User::find($id);
         if ($request->email != $head_employee->email) {
-            $validatedata = $request->validate(rules: [
+            $validatedata = $request->validate([
                 'head_id' => "required|integer",
                 'user_name' => "required|string",
                 'basic_salary' => "required|integer",
                 'hometown' => "required",
                 'phone_number' => "required|numeric",
                 'sk' => "required|string",
-                'email' => "required|email|unique",
+                'email' => "required|email|unique:users,email",
             ]);
 
         } else {
-            $validatedata = $request->validate(rules: [
+            $validatedata = $request->validate([
                 'head_id' => "required|integer",
                 'user_name' => "required|string",
                 'basic_salary' => "required|integer",
@@ -153,6 +153,7 @@ class HeademployeesController extends Controller
             ]);
 
         }
+
 
         if ($request->head_id != $head_employee->head_id) {
             $checkuniqdata = User::where(["role_id" => $this->role_id, "head_id" => $request->head_id])->get()->first();
@@ -184,7 +185,7 @@ class HeademployeesController extends Controller
     {
         $head_employee = User::find($id);
 
-        return view("dashboard.pages.employees.head.head_employees_renew_password")->with(["role" => $role, "head_employee" => $head_employee]);
+        return view("dashboard.pages.employees.head.head_employees_renew_password", ["role" => $role, "head_employee" => $head_employee, "tittle" => "Renew Password ".$this->role_name]);
     }
 
     public function renew_password(Request $request, $role, $id)

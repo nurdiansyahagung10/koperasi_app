@@ -46,7 +46,7 @@ class BranchemployeesController extends Controller
 
     public function index($role)
     {
-        return view("dashboard.pages.employees.branch.branch_employees", ["role" => $role, "tittle" => "Management ". $this->role_name]);
+        return view("dashboard.pages.employees.branch.branch_employees", ["role" => $role, "tittle" => "Management " . $this->role_name]);
     }
 
     /**
@@ -56,7 +56,7 @@ class BranchemployeesController extends Controller
     {
         $head_offices = HeadOffice::all();
 
-        return view('dashboard.pages.employees.branch.branch_employees_create')->with(['head_offices' => $head_offices, "role" => $role, "role_name" => $this->role_name]);
+        return view('dashboard.pages.employees.branch.branch_employees_create', ['head_offices' => $head_offices, "role" => $role, "role_name" => $this->role_name, "tittle" => "Create ". $this->role_name]);
     }
 
     /**
@@ -113,7 +113,7 @@ class BranchemployeesController extends Controller
         $branch_employee = User::with("head_office", "branch_office")->find($id);
         $head_offices = HeadOffice::all();
 
-        return view("dashboard.pages.employees.branch.branch_employees_edit")->with(["role" => $role, "branch_employee" => $branch_employee, "head_offices" => $head_offices]);
+        return view("dashboard.pages.employees.branch.branch_employees_edit", ["role" => $role, "branch_employee" => $branch_employee, "head_offices" => $head_offices , "tittle" => "Edit ". $this->role_name, "role_name" => $this->role_name]);
     }
 
     /**
@@ -131,7 +131,7 @@ class BranchemployeesController extends Controller
                 'hometown' => "required",
                 'phone_number' => "required|numeric",
                 'sk' => "required|string",
-                'email' => "required|email|unique",
+                'email' => "required|email|unique:users,email",
             ]);
 
         } else {
@@ -182,7 +182,7 @@ class BranchemployeesController extends Controller
     {
         $branch_employee = User::find($id);
 
-        return view("dashboard.pages.employees.branch.branch_employees_renew_password")->with(["role" => $role, "branch_employee" => $branch_employee]);
+        return view("dashboard.pages.employees.branch.branch_employees_renew_password", ["role" => $role, "branch_employee" => $branch_employee, "tittle" => "Renew Password " . $this->role_name ]);
     }
 
     public function renew_password(Request $request, $role, $id)

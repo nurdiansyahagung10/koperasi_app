@@ -5,8 +5,7 @@ import {
     CheckHasPermissions,
     FetchDeleteHandler,
     AddDropdownHandler,
-}
-from "./extrafunctionforbodytable.js";
+} from "./extrafunctionforbodytable.js";
 import { SuccessSessionFromJs } from "./element/successsessionjselement.js";
 
 const DisplayBodyTable = (item, iteration) => {
@@ -129,7 +128,13 @@ const ExtraFunctionForBodyTable = (mindata, maxdata) => {
                 name
             );
             break;
+        case "loan_applications":
+            commonHandlers(mindata, maxdata, link, name);
+            break;
         case "advance_payments":
+            commonHandlers(mindata, maxdata, link, name);
+            break;
+        case "droppings":
             commonHandlers(mindata, maxdata, link, name);
             break;
         default:

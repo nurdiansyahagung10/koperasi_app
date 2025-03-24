@@ -11,6 +11,7 @@
             'selectofficecustom' => [
                 'detail_resort' => [
                     'name' => 'detail_resort_id',
+                    'detail_resort_filter_day' => true,
                 ],
             ],
         ],

@@ -1,21 +1,19 @@
 @extends('dashboard.pages.layout.templatepagedashboard')
 
 @section('HeadContent')
-    @include('dashboard.pages.layout.headpage', [
-        'LinkCreate' => 'branch_offices.create',
-    ])
+    @include('dashboard.pages.layout.headpage')
 @endsection
 
 @section('Content')
     <x-datatable :data="[
         'No',
-        'Branch Name',
-        'Province',
-        'Phone Number',
-        'Services Charge',
-        'Admin Charge',
-        'Provisi Charge',
-        'Deposite',
+        'Member',
+        'Nominal_loan_application',
+        'Nominal_dropping',
+        'Pdl',
+        'Branch Office',
+        'Detail Resort',
+        'Status',
         'Created At',
         'Action',
     ]"></x-datatable>

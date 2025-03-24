@@ -5,6 +5,7 @@ const BaseApiUrl = "/api/v1";
 const ApiRoutes = {
     roles: `${BaseApiUrl}/roles`,
     permissions: `${BaseApiUrl}/permissions`,
+    droppings: `${BaseApiUrl}/droppings`,
     users: `${BaseApiUrl}/all_users`,
     head_offices: `${BaseApiUrl}/head_offices`,
     members: `${BaseApiUrl}/members`,
@@ -18,6 +19,7 @@ const ApiRoutes = {
     pdls: `${BaseApiUrl}/pdls/branch_employee/pdl`,
     branch_cashier: `${BaseApiUrl}/branch_cashier/branch_employees`,
     branch_recap: `${BaseApiUrl}/branch_recap/branch_employees`,
+    loan_applications: `${BaseApiUrl}/loan_applications`,
     resorts: `${BaseApiUrl}/resorts/branch_office/${
         window.location.href.split("/")[5]
     }/resort`,
@@ -26,10 +28,6 @@ const ApiRoutes = {
     }/detailresort`,
 };
 
-
 const FileOrLinkData = () => ApiRoutes[Path] || null;
 
-export {
-    FileOrLinkData,
-    Path
-}
+export { FileOrLinkData, Path };

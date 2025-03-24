@@ -71,12 +71,12 @@
                 'value' => $branch_offices->admin_charge,
             ],
             [
-                'label' => 'Commision Charge',
-                'name' => 'comision_charge',
-                'id' => 'comision_charge',
+                'label' => 'Provisi Charge',
+                'name' => 'provisi_charge',
+                'id' => 'provisi_charge',
                 'type' => 'number',
                 'endinputattr' => '%',
-                'value' => $branch_offices->comision_charge,
+                'value' => $branch_offices->provisi_charge,
             ],
             [
                 'label' => 'Deposite',

@@ -13,10 +13,10 @@ return new class extends Migration {
         Schema::create('members', function (Blueprint $table) {
             $table->id();
             $table->string('member_name');
-        $table->date('birthday_date');
+            $table->date('birthday_date');
             $table->string('ktp', 16);
             $table->string('kk', 16);
-            $table->string('status')->default("AKTIF");
+            $table->enum('status', [1, 2, 3])->default(1);
             $table->string("province");
             $table->string("city_or_regency");
             $table->string("district");
